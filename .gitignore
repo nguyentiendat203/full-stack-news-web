@@ -1,0 +1,44 @@
+*.pyc
+*.pyo
+__pycache__/
+
+venv/
+env/
+.venv/
+.virtualenv/
+
+db.sqlite3
+*.log
+
+# Settings and sensitive data
+# settings.py
+
+# Static and media files
+staticfiles/
+media/
+
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
