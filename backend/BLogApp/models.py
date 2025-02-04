@@ -9,7 +9,8 @@ from django.contrib.auth.models import User
 
 # Model Author
 class Author(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="authors")
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="author")
+    avatar = models.ImageField(upload_to="images", null=True)
     bio = models.TextField(null=True, blank=True)
     website_url = models.URLField(null=True, blank=True)
     facebook_url = models.URLField(null=True, blank=True)
@@ -31,6 +32,7 @@ class Post(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, null=True)
     content = models.TextField()
+    image = models.ImageField(upload_to="images", null=True)
     author = models.ForeignKey(
         Author, on_delete=models.SET_NULL, null=True, related_name="posts"
     )
