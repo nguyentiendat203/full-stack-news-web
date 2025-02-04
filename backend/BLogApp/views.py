@@ -1,6 +1,6 @@
-from .serializers import PostSerializer
-from .models import Post
-from rest_framework import status
+from .serializers import AuthorSerializer, PostSerializer, CategorySerializer
+from .models import Author, Post, Category
+from rest_framework import status, generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -22,9 +22,9 @@ def post_list(request):
 
 
 @api_view(["GET", "PUT", "DELETE"])
-def post_detail(request, pk):
+def post_detail(request, slug):
     try:
-        post = Post.objects.get(pk=pk)
+        post = Post.objects.get(slug=slug)
     except Post.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -42,3 +42,33 @@ def post_detail(request, pk):
     elif request.method == "DELETE":
         post.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class PostList(generics.ListCreateAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+
+class PostDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+
+class AuthorList(generics.ListCreateAPIView):
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
+
+
+class AuthorDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
+
+
+class CategoryList(generics.ListCreateAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+
+class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer

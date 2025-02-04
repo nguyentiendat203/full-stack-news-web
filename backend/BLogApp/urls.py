@@ -20,6 +20,10 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("post", views.post_list, name="post_list"),
-    path("post/<int:pk>", views.post_detail, name="post_detail"),
+    path("post", views.PostList.as_view()),
+    path("post/<str:slug>", views.post_detail, name="post_detail"),
+    path("author", views.AuthorList.as_view()),
+    path("author/<int:pk>", views.AuthorDetail.as_view()),
+    path("category", views.CategoryList.as_view()),
+    path("category/<int:pk>", views.CategoryDetail.as_view()),
 ]

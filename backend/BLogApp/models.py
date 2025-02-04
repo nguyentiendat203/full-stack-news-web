@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils.text import slugify
+from django.utils.crypto import get_random_string
 
 # Create your models here.
 from django.db import models
@@ -19,7 +21,6 @@ class Author(models.Model):
 # Model cho thể loại bài viết
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    slug = models.SlugField(unique=True)
 
     def __str__(self):
         return self.name
@@ -28,7 +29,7 @@ class Category(models.Model):
 # Model cho bài viết (Post)
 class Post(models.Model):
     title = models.CharField(max_length=200)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True, null=True)
     content = models.TextField()
     author = models.ForeignKey(
         Author, on_delete=models.SET_NULL, null=True, related_name="posts"
@@ -41,6 +42,13 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        slug = slugify(self.title)
+        if Post.objects.filter(slug=slug).exists():
+            slug = f"{slug}-{get_random_string(5)}"
+        self.slug = slug
+        super().save(*args, **kwargs)
 
     class Meta:
         ordering = ["-created_at"]
