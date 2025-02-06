@@ -5,8 +5,25 @@ import { Navigation } from '../components/Navigation'
 import { HomeLayoutA } from '../components/HomeLayoutA'
 import { HomeLayoutB } from '../components/HomeLayoutB'
 import { HomeLayoutC } from '../components/HomeLayoutC'
+import { useEffect } from 'react'
 
 export const HomePage = () => {
+  const fetchData = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/post')
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`)
+      }
+
+      console.log(await response.json())
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  useEffect(() => {
+    fetchData()
+    console.log('sdas')
+  }, [])
   return (
     <>
       <div className='min-h-screen relative'>
@@ -87,7 +104,7 @@ export const HomePage = () => {
             </div>
             {/* Sidebar */}
             <div className='lg:col-span-1'>
-              <div className='bg-gray-50 p-6 rounded-md'>
+              <div className='bg-gray-50 p-2 rounded-md'>
                 <h3 className='text-xl font-bold mb-4'>BÀI MỚI NHẤT</h3>
                 <article className='border-b py-4'>
                   <span className='text-sm text-gray-700 font-semibold'>TIN LUẬT KHOA</span>
