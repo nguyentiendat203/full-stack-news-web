@@ -3,6 +3,13 @@ from .models import Author, Post, Category
 from rest_framework import status, generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.pagination import PageNumberPagination
+
+
+class PostPagination(PageNumberPagination):
+    page_size = 6
+    page_size_query_param = "page_size"
+    max_page_size = 100
 
 
 # Create your views here.
@@ -22,9 +29,14 @@ def post_list(request):
 
 
 @api_view(["GET", "PUT", "DELETE"])
-def post_detail(request, slug):
+def post_detail(request, slug=None, category=None):
     try:
-        post = Post.objects.get(slug=slug)
+        if slug:
+            post = Post.objects.get(slug=slug)
+        elif category:
+            posts = Post.objects.filter(category=category)[:1]
+            serializer = PostSerializer(posts, many=True)
+            return Response(serializer.data)
     except Post.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -47,6 +59,7 @@ def post_detail(request, slug):
 class PostList(generics.ListCreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    pagination_class = PostPagination
 
 
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):
