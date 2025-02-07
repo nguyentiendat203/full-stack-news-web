@@ -7,6 +7,7 @@ import { HomeLayoutB } from '../components/HomeLayoutB'
 import { HomeLayoutC } from '../components/HomeLayoutC'
 import { fetchData } from '../utils/fetchData'
 import { useEffect, useState } from 'react'
+import { VerticalCardPost } from '../components/VerticalCardPost'
 
 const apiUrl = import.meta.env.VITE_API_URL
 
@@ -68,65 +69,13 @@ export const HomePage = () => {
         <main className='container mx-auto px-4 py-8'>
           <div className='grid grid-cols-1 lg:grid-cols-4 gap-4'>
             <div className='lg:col-span-1'>
-              <article className='mb-4'>
-                <img src={`${apiUrl + listRandomPost[0]?.image}`} className='w-full h-44 object-cover rounded-md' />
-                <div className='my-2'>
-                  <span className='text-sm font-semibold text-gray-800 uppercase'>{listRandomPost[0]?.category?.name}</span>
-                </div>
-                <h2 className='text-xl font-bold mb-3'>{listRandomPost[0]?.title}</h2>
-                <div className='flex items-center gap-2 text-gray-600 text-sm'>
-                  <FaRegUser size={16} />
-                  &#8226;
-                  <span className='uppercase'>
-                    {listRandomPost[0]?.author?.user.first_name}&nbsp;{listRandomPost[0]?.author?.user.last_name}
-                  </span>
-                  &#8226;
-                  <span>{new Date(listRandomPost[0]?.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
-                  &#8226;
-                  <FaRegComment size={16} />0
-                </div>
-              </article>
+              <VerticalCardPost apiUrl={apiUrl} post={listRandomPost[0]} imgHeight='44' titleSize='xl' />
               <hr className='text-gray-300 mb-5' />
-              <article className='mb-4'>
-                <img src={`${apiUrl + listRandomPost[1]?.image}`} className='w-full h-44 object-cover rounded-md' />
-                <div className='my-2'>
-                  <span className='text-sm font-semibold text-gray-800 uppercase'>{listRandomPost[1]?.category?.name}</span>
-                </div>
-                <h2 className='text-xl font-bold mb-3'>{listRandomPost[1]?.title}</h2>
-                <div className='flex items-center gap-2 text-gray-600 text-sm'>
-                  <FaRegUser size={16} />
-                  &#8226;
-                  <span className='uppercase'>
-                    {listRandomPost[1]?.author?.user.first_name}&nbsp;{listRandomPost[1]?.author?.user.last_name}
-                  </span>
-                  &#8226;
-                  <span>{new Date(listRandomPost[1]?.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
-                  &#8226;
-                  <FaRegComment size={16} />0
-                </div>
-              </article>
+              <VerticalCardPost apiUrl={apiUrl} post={listRandomPost[1]} imgHeight='44' titleSize='xl' />
             </div>
-            {/* Main Article */}
 
             <div className='lg:col-span-2'>
-              <article className='mb-8'>
-                <img src={`${apiUrl + listRandomPost[2]?.image}`} alt={listRandomPost[2]?.image} className='w-full h-96 object-cover rounded-md' />
-                <div className='my-2'>
-                  <span className='text-sm font-semibold text-gray-800 uppercase'>{listRandomPost[2]?.category?.name}</span>
-                </div>
-                <h2 className='text-3xl font-bold mb-4'>{listRandomPost[2]?.title}</h2>
-                <div className='flex items-center gap-2 text-gray-600 text-sm'>
-                  <FaRegUser size={16} />
-                  &#8226;
-                  <span className='uppercase'>
-                    {listRandomPost[2]?.author?.user.first_name}&nbsp;{listRandomPost[2]?.author?.user.last_name}
-                  </span>
-                  &#8226;
-                  <span>{new Date(listRandomPost[2]?.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
-                  &#8226;
-                  <FaRegComment size={16} />0
-                </div>
-              </article>
+              <VerticalCardPost apiUrl={apiUrl} post={listRandomPost[2]} imgHeight='96' titleSize='3xl' />
             </div>
             {/* Sidebar */}
             <div className='lg:col-span-1'>
@@ -137,12 +86,12 @@ export const HomePage = () => {
                     return (
                       <>
                         <article key={index} className={index === listLatestPost.length - 1 ? 'py-2' : 'border-b py-2'}>
-                          <span className='text-sm text-gray-700 uppercase font-semibold'>{post.category?.name}</span>
-                          <h4 className='font-semibold my-1 line-clamp-2'>{post.title}</h4>
+                          <span className='text-sm text-gray-700 uppercase font-semibold cursor-pointer hover:underline'>{post.category?.name}</span>
+                          <h4 className='font-semibold my-1 line-clamp-2 cursor-pointer hover:underline'>{post.title}</h4>
                           <div className='flex items-center gap-2 text-gray-600 text-sm'>
                             <FaRegUser size={16} />
                             &#8226;
-                            <span className='uppercase'>
+                            <span className='uppercase cursor-pointer hover:underline'>
                               {post.author?.user.first_name}&nbsp;{post.author?.user.last_name}
                             </span>
                             &#8226;
@@ -154,7 +103,6 @@ export const HomePage = () => {
                       </>
                     )
                   })}
-                {/* Add more sidebar articles as needed */}
               </div>
             </div>
           </div>
