@@ -22,8 +22,17 @@ from . import views
 urlpatterns = [
     path("post", views.PostList.as_view()),
     path("post/<slug:slug>", views.post_detail, name="post_detail"),
-    path("post/category/<int:category>", views.post_detail, name="post_detai_cate"),
-    path("post/latest/<int:six_latest>", views.post_detail, name="post_detai_cate"),
+    path(
+        "post/category/<int:category>",
+        views.post_detail,
+        name="post_detai_cate",
+    ),
+    path(
+        "four-post/category/<int:four_post>",
+        views.post_detail,
+        name="four_posts_belongs_cate",
+    ),
+    path("post/latest/<int:six_latest>", views.post_detail, name="post_latest"),
     path("author", views.AuthorList.as_view()),
     path("author/<int:pk>", views.AuthorDetail.as_view()),
     path("category", views.CategoryList.as_view()),

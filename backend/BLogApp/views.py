@@ -29,7 +29,7 @@ def post_list(request):
 
 
 @api_view(["GET", "PUT", "DELETE"])
-def post_detail(request, slug=None, category=None):
+def post_detail(request, slug=None, category=None, four_post=None):
     try:
         if slug:
             post = Post.objects.get(slug=slug)
@@ -37,6 +37,11 @@ def post_detail(request, slug=None, category=None):
             posts = Post.objects.filter(category=category)[:1]
             serializer = PostSerializer(posts, many=True)
             return Response(serializer.data)
+        elif four_post:
+            posts = Post.objects.filter(category=four_post)[:4]
+            serializer = PostSerializer(posts, many=True)
+            return Response(serializer.data)
+
     except Post.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
