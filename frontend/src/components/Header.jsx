@@ -17,8 +17,10 @@ export const Header = () => {
           </div>
         </div>
 
-        <div className='text-center'>
-          <FaBloggerB size={42} />
+        <div className='text-center cursor-pointer'>
+          <a href='/'>
+            <FaBloggerB size={42} />
+          </a>
         </div>
 
         <div className='flex items-center space-x-4'>

@@ -1,19 +1,24 @@
 import { FaRegComment, FaRegUser } from 'react-icons/fa'
+import { NavLink } from 'react-router-dom'
 
 export const VerticalCardPost = ({ post, apiUrl, noCategory, size }) => {
   return (
     <article className='mb-8'>
-      <img
-        src={apiUrl + post?.image}
-        alt={post?.image?.url}
-        className={`w-full imgHeight ${size === 'small' ? 'h-44' : '196'} object-cover object-top rounded-md cursor-pointer hover:underline`}
-      />
+      <NavLink to={`/posts/${post?.slug}`}>
+        <img
+          src={apiUrl + post?.image}
+          alt={post?.image?.url}
+          className={`w-full imgHeight ${size === 'small' ? 'h-44' : '196'} object-cover object-top rounded-md cursor-pointer hover:underline`}
+        />
+      </NavLink>
       {!noCategory && (
         <div className='mt-2'>
           <span className='text-sm font-semibold text-gray-800 uppercase cursor-pointer hover:underline'>{post?.category?.name}</span>
         </div>
       )}
-      <h2 className={`${size === 'small' ? 'text-xl' : 'text-3xl'}  font-bold my-2  cursor-pointer hover:underline`}>{post?.title}</h2>
+      <NavLink to={`/posts/${post?.slug}`}>
+        <h2 className={`${size === 'small' ? 'text-xl' : 'text-3xl'}  font-bold my-2  cursor-pointer hover:underline`}>{post?.title}</h2>
+      </NavLink>
       <div className='flex items-center gap-2 text-gray-600 text-sm'>
         <FaRegUser size={16} />
         &#8226;
