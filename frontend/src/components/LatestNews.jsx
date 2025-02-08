@@ -1,6 +1,6 @@
 import { HorizontalCardPost } from './HorizontalCardPost'
 
-export const LatestNews = ({ listLatestPost }) => {
+export const LatestNews = ({ listLatestPost, apiUrl }) => {
   return (
     <>
       <div className='container mx-auto py-12'>

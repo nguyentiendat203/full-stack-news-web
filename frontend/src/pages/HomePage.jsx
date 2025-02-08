@@ -8,13 +8,17 @@ import { HomeLayoutC } from '../components/HomeLayoutC'
 import { fetchData } from '../utils/fetchData'
 import { useEffect, useState } from 'react'
 import { VerticalCardPost } from '../components/VerticalCardPost'
+import { Footer } from '../components/Footer'
 
 const apiUrl = import.meta.env.VITE_API_URL
+const availableLayout = [HomeLayoutA, HomeLayoutB, HomeLayoutC]
 
 export const HomePage = () => {
   const [listCate, setListCate] = useState([])
   const [listRandomPost, setListRandomPost] = useState([])
   const [listLatestPost, setListLatestPost] = useState([])
+  const [postsByCategory, setPostsByCategory] = useState([])
+  const [categoryComponentMap, setCategoryComponentMap] = useState({})
 
   const fetchDataBackend = async () => {
     try {
@@ -22,6 +26,13 @@ export const HomePage = () => {
       const resLatestPost = await fetchData('http://127.0.0.1:8080/post')
       setListCate(response)
       setListLatestPost(resLatestPost.results)
+
+      // Tạo ánh xạ động từ category sang component
+      let dynamicMap = {}
+      response.map((cate, index) => {
+        dynamicMap[cate.id] = availableLayout[index % availableLayout.length]
+      })
+      setCategoryComponentMap(dynamicMap)
     } catch (error) {
       console.log(error)
     }
@@ -49,12 +60,23 @@ export const HomePage = () => {
     }
   }
 
+  const fetchPosts = async () => {
+    const fetchedPosts = await Promise.all(
+      listCate.map(async (item) => {
+        const posts = await fetchData(`${apiUrl}/four-post/category/${item.id}`)
+        return { categoryId: item.id, posts }
+      })
+    )
+    setPostsByCategory(fetchedPosts)
+  }
+
   useEffect(() => {
     fetchDataBackend()
   }, [])
 
   useEffect(() => {
     postBelongsCate()
+    fetchPosts()
   }, [listCate])
 
   return (
@@ -69,13 +91,13 @@ export const HomePage = () => {
         <main className='container mx-auto px-4 py-8'>
           <div className='grid grid-cols-1 lg:grid-cols-4 gap-4'>
             <div className='lg:col-span-1'>
-              <VerticalCardPost apiUrl={apiUrl} post={listRandomPost[0]} imgHeight='44' titleSize='xl' />
+              <VerticalCardPost apiUrl={apiUrl} post={listRandomPost[0]} size='small' />
               <hr className='text-gray-300 mb-5' />
-              <VerticalCardPost apiUrl={apiUrl} post={listRandomPost[1]} imgHeight='44' titleSize='xl' />
+              <VerticalCardPost apiUrl={apiUrl} post={listRandomPost[1]} size='small' />
             </div>
 
             <div className='lg:col-span-2'>
-              <VerticalCardPost apiUrl={apiUrl} post={listRandomPost[2]} imgHeight='96' titleSize='3xl' />
+              <VerticalCardPost apiUrl={apiUrl} post={listRandomPost[2]} size='large' />
             </div>
             {/* Sidebar */}
             <div className='lg:col-span-1'>
@@ -106,11 +128,14 @@ export const HomePage = () => {
               </div>
             </div>
           </div>
-          <LatestNews listLatestPost={listLatestPost} />
-          <HomeLayoutA />
-          <HomeLayoutB />
-          <HomeLayoutC />
+          <LatestNews listLatestPost={listLatestPost} apiUrl={apiUrl} />
+          {postsByCategory.map(({ categoryId, posts }) => {
+            const Component = categoryComponentMap[categoryId]
+            return Component ? <Component apiUrl={apiUrl} posts={posts} /> : null
+          })}
         </main>
+
+        <Footer />
       </div>
     </>
   )

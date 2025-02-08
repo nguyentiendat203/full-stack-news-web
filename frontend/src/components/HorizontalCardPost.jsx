@@ -1,14 +1,19 @@
 import { FaRegComment, FaRegUser } from 'react-icons/fa'
 
-export const HorizontalCardPost = ({ post }) => {
+export const HorizontalCardPost = ({ post, apiUrl, noCategory }) => {
   return (
     <article className='flex gap-4 h-[150px]'>
       <div className='w-2/5'>
-        <img src={post.image} alt={post.title} className='w-full object-cover rounded-md h-full' />
+        <img
+          src={String(post?.image).includes('http') ? post?.image : apiUrl + post?.image}
+          alt={post.title}
+          className='w-full object-cover rounded-md h-full object-top
+'
+        />
       </div>
       <div className='flex-1 flex-grow'>
-        <p className='text-sm text-gray-700 uppercase font-semibold hover:underline cursor-pointer'>{post.category?.name}</p>
-        <h3 className='text-xl font-semibold hover:underline cursor-pointer my-2'>{post.title}</h3>
+        {!noCategory && <p className='text-sm text-gray-700 uppercase mb-2 font-semibold hover:underline cursor-pointer'>{post.category?.name}</p>}
+        <h3 className='text-xl font-semibold hover:underline cursor-pointer mb-2'>{post.title}</h3>
         <div className='flex items-center gap-2 text-gray-600 text-sm'>
           <FaRegUser size={16} />
           &#8226;
