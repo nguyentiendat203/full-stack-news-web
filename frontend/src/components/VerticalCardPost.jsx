@@ -1,7 +1,11 @@
+import { useContext } from 'react'
 import { FaRegComment, FaRegUser } from 'react-icons/fa'
 import { NavLink } from 'react-router-dom'
+import { Context } from '../context/Context'
 
 export const VerticalCardPost = ({ post, apiUrl, noCategory, size }) => {
+  const { setCateId } = useContext(Context)
+
   return (
     <article className='mb-8'>
       <NavLink to={`/posts/${post?.slug}`}>
@@ -12,9 +16,11 @@ export const VerticalCardPost = ({ post, apiUrl, noCategory, size }) => {
         />
       </NavLink>
       {!noCategory && (
-        <div className='mt-2'>
-          <span className='text-sm font-semibold text-gray-800 uppercase cursor-pointer hover:underline'>{post?.category?.name}</span>
-        </div>
+        <NavLink to={`/category/${post?.category?.id}`} onClick={() => setCateId(post?.category?.id)}>
+          <div className='mt-2'>
+            <span className='text-sm font-semibold text-gray-800 uppercase cursor-pointer hover:underline'>{post?.category?.name}</span>
+          </div>
+        </NavLink>
       )}
       <NavLink to={`/posts/${post?.slug}`}>
         <h2 className={`${size === 'small' ? 'text-xl' : 'text-3xl'}  font-bold my-2  cursor-pointer hover:underline`}>{post?.title}</h2>

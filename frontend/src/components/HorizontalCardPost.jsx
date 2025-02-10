@@ -1,7 +1,11 @@
+import { useContext } from 'react'
 import { FaRegComment, FaRegUser } from 'react-icons/fa'
 import { NavLink } from 'react-router-dom'
+import { Context } from '../context/Context'
 
 export const HorizontalCardPost = ({ post, apiUrl, noCategory }) => {
+  const { setCateId } = useContext(Context)
+
   return (
     <article className='flex gap-4 h-[150px]'>
       <div className='w-2/5'>
@@ -10,7 +14,11 @@ export const HorizontalCardPost = ({ post, apiUrl, noCategory }) => {
         </NavLink>
       </div>
       <div className='flex-1 flex-grow'>
-        {!noCategory && <p className='text-sm text-gray-700 uppercase mb-2 font-semibold hover:underline cursor-pointer'>{post.category?.name}</p>}
+        {!noCategory && (
+          <NavLink to={`/category/${post?.category?.id}`} onClick={() => setCateId(post?.category?.id)}>
+            <p className='text-sm text-gray-700 uppercase mb-2 font-semibold hover:underline cursor-pointer'>{post.category?.name}</p>
+          </NavLink>
+        )}
         <NavLink to={`/posts/${post?.slug}`}>
           <h3 className='text-xl font-semibold hover:underline cursor-pointer mb-2'>{post.title}</h3>
         </NavLink>

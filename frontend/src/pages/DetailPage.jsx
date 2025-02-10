@@ -1,18 +1,19 @@
 import { CiShare1 } from 'react-icons/ci'
-import { FaRegCalendarAlt, FaComment, FaRegComment } from 'react-icons/fa'
-import { FaRegCircleUser } from 'react-icons/fa6'
+import { FaRegCalendarAlt, FaRegComment } from 'react-icons/fa'
+import { FaRegCircleUser, FaArrowLeftLong } from 'react-icons/fa6'
 
-import { useParams } from 'react-router-dom'
+import { NavLink, useParams } from 'react-router-dom'
 import { SidebarLatestPosts } from '../components/SidebarLatestPosts'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { fetchData } from '../utils/fetchData'
-import { HomeLayoutB } from '../components/HomeLayoutB'
-import { HomeLayoutC } from '../components/HomeLayoutC'
 import { HorizontalCardPost } from '../components/HorizontalCardPost'
+import { Context } from '../context/Context'
 
 const apiUrl = import.meta.env.VITE_API_URL
 
 export const DetailPage = () => {
+  const { setCateId, arrowLeft, setArrowLeft } = useContext(Context)
+
   const [listLatestPost, setListLatestPost] = useState([])
   const [listPostsByCate, setListPostsByCate] = useState([])
   const [posts, setPosts] = useState({})
@@ -53,7 +54,20 @@ export const DetailPage = () => {
     <div className='min-h-screen bg-gray-50'>
       {/* Main Content */}
       <main className='container mx-auto px-4 py-5 max-w-4xl'>
-        <span className='text-sm font-semibold text-gray-800 uppercase cursor-pointer hover:underline'>{posts?.category?.name}</span>
+        <NavLink to={`/category/${posts?.category?.id}`} className='inline-block'>
+          <div className='flex gap-2 cursor-pointer hover:underline items-center'>
+            {arrowLeft && <FaArrowLeftLong />}
+            <span
+              onClick={() => {
+                setCateId(posts?.category?.id)
+                setArrowLeft(true)
+              }}
+              className='text-sm font-semibold text-gray-800 uppercase '
+            >
+              {posts?.category?.name}
+            </span>
+          </div>
+        </NavLink>
         <h1 className='text-4xl font-bold text-gray-900 my-4'>{posts?.title}</h1>
 
         {/* Author and Metadata */}

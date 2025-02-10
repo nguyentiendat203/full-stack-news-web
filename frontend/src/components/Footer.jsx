@@ -2,7 +2,7 @@ import { LuFacebook, LuInstagram, LuMail, LuNewspaper, LuTwitter } from 'react-i
 
 export const Footer = () => {
   return (
-    <footer className='bg-gray-900 text-gray-300'>
+    <footer className='bg-gray-900 mt-32  text-gray-300'>
       <div className='max-w-7xl mx-auto px-4 py-12'>
         <div className='grid grid-cols-1 md:grid-cols-4 gap-8'>
           {/* Brand Section */}

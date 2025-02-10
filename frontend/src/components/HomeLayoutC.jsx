@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom'
 import { HorizontalCardPost } from './HorizontalCardPost'
 
 export const HomeLayoutC = ({ posts, apiUrl }) => {
@@ -16,7 +17,9 @@ export const HomeLayoutC = ({ posts, apiUrl }) => {
           })}
       </div>
       <div className='text-center mt-8'>
-        <button className='px-8 py-3 border border-gray-300 rounded hover:bg-gray-50 font-medium'>ĐỌC THÊM</button>
+        <NavLink to={`/category/${posts[0]?.category?.id}`}>
+          <button className='px-8 py-3 border border-gray-300 rounded hover:bg-gray-300 font-medium'>ĐỌC THÊM</button>
+        </NavLink>
       </div>
     </div>
   )

@@ -1,5 +1,6 @@
 import { VerticalCardPost } from './VerticalCardPost'
 import { HorizontalCardPost } from './HorizontalCardPost'
+import { NavLink } from 'react-router-dom'
 
 export const HomeLayoutA = ({ posts, apiUrl }) => {
   const newPosts = [...posts]
@@ -23,7 +24,9 @@ export const HomeLayoutA = ({ posts, apiUrl }) => {
         </div>
       </div>
       <div className='text-center mt-8'>
-        <button className='px-8 py-3 border border-gray-300 rounded hover:bg-gray-50 font-medium'>ĐỌC THÊM</button>
+        <NavLink to={`/category/${firstPost?.category?.id}`}>
+          <button className='px-8 py-3 border border-gray-300 rounded hover:bg-gray-300 font-medium'>ĐỌC THÊM</button>
+        </NavLink>
       </div>
     </div>
   )

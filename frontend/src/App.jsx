@@ -3,6 +3,7 @@ import { HomePage } from './pages/HomePage'
 import { MainLayout } from './Layout/MainLayout'
 import { DetailPage } from './pages/DetailPage'
 import { useEffect } from 'react'
+import { PostsByCate } from './pages/PostsByCate'
 
 export default function ScrollToTop({ children }) {
   const { pathname } = useLocation()
@@ -25,7 +26,8 @@ export const App = () => {
       ),
       children: [
         { path: '/', element: <HomePage /> },
-        { path: '/posts/:slug', element: <DetailPage /> }
+        { path: '/posts/:slug', element: <DetailPage /> },
+        { path: '/category/:id', element: <PostsByCate /> }
       ]
     }
   ])

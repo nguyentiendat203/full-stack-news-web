@@ -5,7 +5,7 @@ import { HomeLayoutC } from '../components/HomeLayoutC'
 import { fetchData } from '../utils/fetchData'
 import { useEffect, useState } from 'react'
 import { VerticalCardPost } from '../components/VerticalCardPost'
-import { SidebarLatestPosts } from '../components/SidebarLatestPosts'
+import { fetchListPostsRandom } from '../utils/fetchListPostsRandom'
 
 const apiUrl = import.meta.env.VITE_API_URL
 const availableLayout = [HomeLayoutA, HomeLayoutB, HomeLayoutC]
@@ -37,8 +37,8 @@ export const HomePage = () => {
 
   const postBelongsCate = async () => {
     let randomCateIds = []
-    while (randomCateIds.length < 3) {
-      if (listCate.length < 3) return
+    while (randomCateIds.length < 5) {
+      if (listCate.length < 5) return
       const randomId = Math.floor(Math.random() * listCate.length)
       const cateId = listCate[randomId].id
 
@@ -47,11 +47,8 @@ export const HomePage = () => {
       }
     }
     try {
-      const postPromises = randomCateIds.map((id) => {
-        return fetchData(`http://127.0.0.1:8080/post/category/${id}`)
-      })
-      const posts = await Promise.all(postPromises)
-      setListRandomPost(posts.flat())
+      const posts = await fetchListPostsRandom(listCate)
+      setListRandomPost(posts)
     } catch (error) {
       console.log(error)
     }
@@ -91,7 +88,11 @@ export const HomePage = () => {
               <VerticalCardPost apiUrl={apiUrl} post={listRandomPost[2]} size='large' />
             </div>
             {/* Sidebar */}
-            <SidebarLatestPosts listLatestPost={listLatestPost} />
+            <div className='lg:col-span-1'>
+              <VerticalCardPost apiUrl={apiUrl} post={listRandomPost[3]} size='small' />
+              <hr className='text-gray-300 mb-5' />
+              <VerticalCardPost apiUrl={apiUrl} post={listRandomPost[4]} size='small' />
+            </div>
           </div>
           <LatestNews listLatestPost={listLatestPost} apiUrl={apiUrl} />
           {postsByCategory.map(({ categoryId, posts }) => {
