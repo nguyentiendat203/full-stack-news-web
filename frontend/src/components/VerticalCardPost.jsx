@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom'
 import { Context } from '../context/Context'
 
 export const VerticalCardPost = ({ post, apiUrl, noCategory, size }) => {
-  const { setCateId } = useContext(Context)
+  const { setCateId, setArrowLeft } = useContext(Context)
 
   return (
     <article className='mb-8'>
@@ -16,7 +16,13 @@ export const VerticalCardPost = ({ post, apiUrl, noCategory, size }) => {
         />
       </NavLink>
       {!noCategory && (
-        <NavLink to={`/category/${post?.category?.id}`} onClick={() => setCateId(post?.category?.id)}>
+        <NavLink
+          to={`/category/${post?.category?.id}`}
+          onClick={() => {
+            setCateId(post?.category?.id)
+            setArrowLeft(true)
+          }}
+        >
           <div className='mt-2'>
             <span className='text-sm font-semibold text-gray-800 uppercase cursor-pointer hover:underline'>{post?.category?.name}</span>
           </div>
@@ -28,9 +34,11 @@ export const VerticalCardPost = ({ post, apiUrl, noCategory, size }) => {
       <div className='flex items-center gap-2 text-gray-600 text-sm'>
         <FaRegUser size={16} />
         &#8226;
-        <span className='uppercase cursor-pointer hover:underline line-clamp-1'>
-          {post?.author?.user.first_name}&nbsp;{post?.author?.user.last_name}
-        </span>
+        <NavLink to={`/author/${post?.author.id}`}>
+          <span className='uppercase cursor-pointer hover:underline line-clamp-1'>
+            {post?.author?.user.first_name}&nbsp;{post?.author?.user.last_name}
+          </span>
+        </NavLink>
         &#8226;
         <span>{new Date(post?.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
         &#8226;

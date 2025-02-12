@@ -1,7 +1,11 @@
 import { NavLink } from 'react-router-dom'
 import { VerticalCardPost } from './VerticalCardPost'
+import { useContext } from 'react'
+import { Context } from '../context/Context'
 
 export const HomeLayoutB = ({ posts, apiUrl }) => {
+  const { setCateId, setArrowLeft } = useContext(Context)
+
   return (
     <div className='py-12'>
       <h2 className='text-2xl font-bold mb-4'>{posts[0].category?.name}</h2>
@@ -11,15 +15,21 @@ export const HomeLayoutB = ({ posts, apiUrl }) => {
           posts.map((item, index) => {
             return (
               <>
-                <VerticalCardPost key={index} post={item} apiUrl={apiUrl} size='small' />
+                <VerticalCardPost key={index} post={item} noCategory apiUrl={apiUrl} size='small' />
               </>
             )
           })}
       </div>
       <div className='text-center mt-8'>
-        <NavLink to={`/category/${posts[0]?.category?.id}`}>
+        <NavLink
+          to={`/category/${posts[0]?.category?.id}`}
+          onClick={() => {
+            setCateId(posts[0]?.category?.id)
+            setArrowLeft(true)
+          }}
+        >
           <button className='px-8 py-3 border border-gray-300 rounded hover:bg-gray-300 font-medium'>ĐỌC THÊM</button>
-        </NavLink>{' '}
+        </NavLink>
       </div>
     </div>
   )

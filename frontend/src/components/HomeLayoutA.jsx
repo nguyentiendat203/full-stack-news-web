@@ -1,8 +1,12 @@
 import { VerticalCardPost } from './VerticalCardPost'
 import { HorizontalCardPost } from './HorizontalCardPost'
 import { NavLink } from 'react-router-dom'
+import { useContext } from 'react'
+import { Context } from '../context/Context'
 
 export const HomeLayoutA = ({ posts, apiUrl }) => {
+  const { setCateId, setArrowLeft } = useContext(Context)
+
   const newPosts = [...posts]
   const firstPost = newPosts.shift()
 
@@ -17,14 +21,20 @@ export const HomeLayoutA = ({ posts, apiUrl }) => {
             newPosts.map((item, index) => {
               return (
                 <>
-                  <HorizontalCardPost key={index} post={item} apiUrl={apiUrl} />
+                  <HorizontalCardPost key={index} post={item} noCategory apiUrl={apiUrl} />
                 </>
               )
             })}
         </div>
       </div>
       <div className='text-center mt-8'>
-        <NavLink to={`/category/${firstPost?.category?.id}`}>
+        <NavLink
+          to={`/category/${firstPost?.category?.id}`}
+          onClick={() => {
+            setCateId(firstPost?.category?.id)
+            setArrowLeft(true)
+          }}
+        >
           <button className='px-8 py-3 border border-gray-300 rounded hover:bg-gray-300 font-medium'>ĐỌC THÊM</button>
         </NavLink>
       </div>
