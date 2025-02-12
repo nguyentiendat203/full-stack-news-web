@@ -62,9 +62,18 @@ def post_detail(request, slug=None, category=None, four_post=None):
 
 
 class PostList(generics.ListCreateAPIView):
-    queryset = Post.objects.all()
     serializer_class = PostSerializer
     pagination_class = PostPagination
+
+    def get_queryset(self):
+        # Lấy category_id từ URL
+        category_id = self.kwargs.get("category_id")
+
+        # Nếu category_id có giá trị, lọc các bài viết theo category_id
+        if category_id:
+            return Post.objects.filter(category_id=category_id)
+
+        return Post.objects.all()
 
 
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -74,7 +83,17 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class AuthorList(generics.ListCreateAPIView):
     queryset = Author.objects.all()
-    serializer_class = AuthorSerializer
+    serializer_class = PostSerializer
+    pagination_class = PostPagination
+
+    def get_queryset(self):
+        # Lấy author_id từ URL
+        author_id = self.kwargs.get("author_id")
+        # Nếu author_id có giá trị, lọc các bài viết theo author_id
+        if author_id:
+            return Post.objects.filter(author_id=author_id)
+
+        return Author.objects.all()
 
 
 class AuthorDetail(generics.RetrieveUpdateDestroyAPIView):
