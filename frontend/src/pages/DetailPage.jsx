@@ -8,6 +8,7 @@ import { useContext, useEffect, useState } from 'react'
 import { fetchData } from '../utils/fetchData'
 import { HorizontalCardPost } from '../components/HorizontalCardPost'
 import { Context } from '../context/Context'
+import { Pagination } from '../components/Pagination'
 
 const apiUrl = import.meta.env.VITE_API_URL
 
@@ -17,6 +18,8 @@ export const DetailPage = () => {
   const [listLatestPost, setListLatestPost] = useState([])
   const [listPostsByCate, setListPostsByCate] = useState([])
   const [posts, setPosts] = useState({})
+  const [page, setPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(0)
 
   const { slug } = useParams()
 
@@ -39,8 +42,9 @@ export const DetailPage = () => {
     if (posts?.category?.id) {
       const fetchPostsByCategory = async () => {
         try {
-          const resPostsbyCate = await fetchData(`http://127.0.0.1:8080/four-post/category/${posts?.category?.id}`)
-          setListPostsByCate(resPostsbyCate)
+          const resPostsbyCate = await fetchData(`http://127.0.0.1:8080/posts/category/${posts?.category?.id}?page=${page}`)
+          setListPostsByCate(resPostsbyCate.results)
+          setTotalPages(Math.ceil(resPostsbyCate.count / 6))
         } catch (error) {
           console.log(error)
         }
@@ -48,10 +52,10 @@ export const DetailPage = () => {
 
       fetchPostsByCategory()
     }
-  }, [posts])
+  }, [posts, page])
 
   return (
-    <div className='min-h-screen bg-gray-50'>
+    <div className='min-h-screen bg-gray-50 pb-32'>
       {/* Main Content */}
       <main className='container mx-auto px-4 py-5 max-w-4xl'>
         <NavLink to={`/category/${posts?.category?.id}`} className='inline-block'>
@@ -74,9 +78,11 @@ export const DetailPage = () => {
         <div className='flex items-center gap-6 mb-8 text-sm text-gray-600'>
           <div className='flex items-center gap-2'>
             <FaRegCircleUser size={20} />
-            <span className='cursor-pointer hover:underline uppercase'>
-              {posts?.author?.user.first_name}&nbsp;{posts?.author?.user.last_name}
-            </span>
+            <NavLink to={`/author/${posts?.author?.id}`} onClick={() => setCateId(null)}>
+              <span className='cursor-pointer hover:underline uppercase'>
+                {posts?.author?.user.first_name}&nbsp;{posts?.author?.user.last_name}
+              </span>
+            </NavLink>
           </div>
           <div className='flex items-center gap-2'>
             <FaRegComment size={16} />
@@ -121,6 +127,7 @@ export const DetailPage = () => {
           {listPostsByCate.map((post, index) => {
             return <>{post.id !== posts.id && <HorizontalCardPost key={index} post={post} apiUrl={apiUrl} noCategory />}</>
           })}
+          <Pagination page={page} setPage={setPage} totalPages={totalPages} />
         </div>
       </main>
     </div>

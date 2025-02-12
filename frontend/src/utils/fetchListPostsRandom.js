@@ -1,8 +1,6 @@
 import { fetchData } from './fetchData'
 
 export const fetchListPostsRandom = async (listCate) => {
-  console.log(listCate)
-
   let randomCateIds = []
   while (randomCateIds.length < 5) {
     if (listCate.length < 5) return
@@ -13,14 +11,12 @@ export const fetchListPostsRandom = async (listCate) => {
       randomCateIds.push(cateId)
     }
   }
-  console.log(randomCateIds)
 
   try {
     const postPromises = randomCateIds.map((id) => {
-      return fetchData(`http://127.0.0.1:8080/post/category/${id}`)
+      return fetchData(`http://127.0.0.1:8080/one-post/category/${id}`)
     })
     const posts = await Promise.all(postPromises)
-    console.log(posts)
     return posts.flat()
   } catch (error) {
     console.log(error)

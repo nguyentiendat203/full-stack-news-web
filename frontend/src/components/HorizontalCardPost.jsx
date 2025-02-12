@@ -31,7 +31,13 @@ export const HorizontalCardPost = ({ post, apiUrl, noCategory }) => {
         <div className='flex items-center gap-2 text-gray-600 text-sm'>
           <FaRegUser size={16} />
           &#8226;
-          <NavLink to={`/author/${post?.author.id}`} onClick={() => setCateId(null)}>
+          <NavLink
+            to={`/author/${post?.author.id}`}
+            onClick={() => {
+              setCateId(null)
+              setArrowLeft(false)
+            }}
+          >
             <span className='uppercase hover:underline cursor-pointer'>
               {post.author?.user.first_name}&nbsp;{post.author?.user.last_name}
             </span>
