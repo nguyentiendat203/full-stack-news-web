@@ -23,7 +23,7 @@ urlpatterns = [
     path("post", views.PostList.as_view()),
     path("post/<slug:slug>", views.post_detail, name="post_detail"),
     path(
-        "post/category/<int:category>",
+        "one-post/category/<int:category>",
         views.post_detail,
         name="post_detai_cate",
     ),
@@ -33,11 +33,14 @@ urlpatterns = [
         name="four_posts_belongs_cate",
     ),
     path(
-        "list-post/<int:category_id>",
+        "posts/category/<int:category_id>",
         views.PostList.as_view(),
         name="list_post_by_cate",
     ),
     path("post/latest/<int:six_latest>", views.post_detail, name="post_latest"),
+    path(
+        "post/search/<str:query>", views.SearchAPIView.as_view(), name="search_results"
+    ),
     path("author", views.AuthorList.as_view()),
     path(
         "author/posts/<int:author_id>",

@@ -1,9 +1,17 @@
-from .serializers import AuthorSerializer, PostSerializer, CategorySerializer
+from .serializers import (
+    AuthorSerializer,
+    PostSerializer,
+    CategorySerializer,
+)
 from .models import Author, Post, Category
+from django.contrib.auth.models import User
 from rest_framework import status, generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
+from django.db.models import Q
+from rest_framework.views import APIView
+from django.core.paginator import Paginator
 
 
 class PostPagination(PageNumberPagination):
@@ -74,6 +82,24 @@ class PostList(generics.ListCreateAPIView):
             return Post.objects.filter(category_id=category_id)
 
         return Post.objects.all()
+
+
+class SearchAPIView(APIView, PostPagination):
+
+    def get(self, request, query, format=None):
+        posts = Post.objects.filter(title__icontains=query)
+        authors = Author.objects.filter(
+            Q(user__first_name__icontains=query) | Q(user__last_name__icontains=query)
+        )
+
+        paginated_posts = self.paginate_queryset(posts, request)
+        posts_data = PostSerializer(paginated_posts, many=True).data
+
+        authors_data = AuthorSerializer(authors, many=True).data
+
+        return self.get_paginated_response(
+            {"posts": posts_data, "authors": authors_data}
+        )
 
 
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):
