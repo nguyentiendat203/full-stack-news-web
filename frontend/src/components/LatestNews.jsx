@@ -1,6 +1,7 @@
+import { NavLink } from 'react-router-dom'
 import { HorizontalCardPost } from './HorizontalCardPost'
 
-export const LatestNews = ({ listLatestPost, apiUrl }) => {
+export const LatestNews = ({ listLatestPost }) => {
   return (
     <>
       <div className='container mx-auto py-12'>
@@ -12,9 +13,11 @@ export const LatestNews = ({ listLatestPost, apiUrl }) => {
           ))}
         </div>
 
-        <div className='text-center mt-8'>
-          <button className='px-8 py-3 border border-gray-300 rounded hover:bg-gray-50 font-medium'>ĐỌC THÊM</button>
-        </div>
+        <NavLink to='/posts'>
+          <div className='text-center mt-8'>
+            <button className='px-8 py-3 border border-gray-300 rounded hover:bg-gray-300 font-medium'>ĐỌC THÊM</button>
+          </div>
+        </NavLink>
       </div>
     </>
   )

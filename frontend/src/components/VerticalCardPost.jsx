@@ -32,17 +32,20 @@ export const VerticalCardPost = ({ post, apiUrl, noCategory, size }) => {
         <h2 className={`${size === 'small' ? 'text-xl' : 'text-3xl'}  font-bold my-2  cursor-pointer hover:underline`}>{post?.title}</h2>
       </NavLink>
       <div className='flex items-center gap-2 text-gray-600 text-sm'>
-        <FaRegUser size={16} />
-        &#8226;
-        <NavLink to={`/author/${post?.author.id}`}>
-          <span className='uppercase cursor-pointer hover:underline line-clamp-1'>
+        <div className={`flex items-center gap-1 ${size === 'small' && 'max-w-[50%]'}`}>
+          <FaRegUser size={12} className='shrink-0' />
+          <NavLink to={`/author/${post?.author.id}`} className='uppercase cursor-pointer hover:underline line-clamp-1'>
             {post?.author?.user.first_name}&nbsp;{post?.author?.user.last_name}
-          </span>
-        </NavLink>
-        &#8226;
-        <span>{new Date(post?.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
-        &#8226;
-        <FaRegComment size={16} />0
+          </NavLink>
+        </div>
+        <span className='flex items-center gap-1'>
+          &#8226;
+          <span>{new Date(post?.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+        </span>
+        <span className='flex items-center gap-1'>
+          &#8226;
+          <FaRegComment size={14} />0
+        </span>
       </div>
     </article>
   )

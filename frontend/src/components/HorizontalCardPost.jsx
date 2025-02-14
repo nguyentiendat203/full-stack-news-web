@@ -26,26 +26,28 @@ export const HorizontalCardPost = ({ post, apiUrl, noCategory }) => {
           </NavLink>
         )}
         <NavLink to={`/posts/${post?.slug}`}>
-          <h3 className='text-xl font-semibold hover:underline cursor-pointer mb-2'>{post.title}</h3>
+          <h3 className='text-xl font-semibold hover:underline cursor-pointer mb-2 line-clamp-3'>{post.title}</h3>
         </NavLink>
-        <div className='flex items-center gap-2 text-gray-600 text-sm'>
-          <FaRegUser size={16} />
-          &#8226;
-          <NavLink
-            to={`/author/${post?.author.id}`}
-            onClick={() => {
-              setCateId(null)
-              setArrowLeft(false)
-            }}
-          >
-            <span className='uppercase hover:underline cursor-pointer'>
-              {post.author?.user.first_name}&nbsp;{post.author?.user.last_name}
-            </span>
-          </NavLink>
-          &#8226;
-          <span>{new Date(post.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
-          &#8226;
-          <FaRegComment size={16} />0
+        <div className='flex items-center gap-3 text-gray-600 text-sm'>
+          <div className='flex items-center gap-1'>
+            <FaRegUser size={12} />
+            <NavLink
+              to={`/author/${post?.author.id}`}
+              onClick={() => {
+                setCateId(null)
+                setArrowLeft(false)
+              }}
+            >
+              <span className='uppercase hover:underline cursor-pointer'>
+                {post.author?.user.first_name}&nbsp;{post.author?.user.last_name}
+              </span>
+            </NavLink>
+          </div>
+          <div className='flex items-center gap-1'>
+            <span>{new Date(post.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+            &#8226;
+            <FaRegComment size={16} />0
+          </div>
         </div>
       </div>
     </article>
