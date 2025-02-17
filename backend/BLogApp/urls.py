@@ -16,30 +16,33 @@ Including another URLconf
 """
 
 from django.urls import path
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 from . import views
 
 urlpatterns = [
-    path("post", views.PostList.as_view()),
-    path("post/<slug:slug>", views.post_detail, name="post_detail"),
+    path("posts", views.PostList.as_view()),
+    path("posts/<slug:slug>", views.PostDetail.as_view(), name="post_detail"),
     path(
-        "one-post/category/<int:category>",
-        views.post_detail,
-        name="post_detai_cate",
+        "posts/category/first-post",
+        views.PostDetail.as_view(),
+        name="get_first_post_by_cate",
     ),
     path(
-        "four-post/category/<int:four_post>",
-        views.post_detail,
-        name="four_posts_belongs_cate",
+        "posts/category/four-posts",
+        views.PostList.as_view(),
+        name="get_four_posts_by_cate",
     ),
     path(
         "posts/category/<int:category_id>",
         views.PostList.as_view(),
         name="list_post_by_cate",
     ),
-    path("post/latest/<int:six_latest>", views.post_detail, name="post_latest"),
     path(
-        "post/search/<str:query>", views.SearchAPIView.as_view(), name="search_results"
+        "posts/search/<str:query>", views.SearchAPIView.as_view(), name="search_results"
     ),
     path("author", views.AuthorList.as_view()),
     path(
@@ -50,4 +53,6 @@ urlpatterns = [
     path("author/<int:pk>", views.AuthorDetail.as_view()),
     path("category", views.CategoryList.as_view()),
     path("category/<int:pk>", views.CategoryDetail.as_view()),
+    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 ]
