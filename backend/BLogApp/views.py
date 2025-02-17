@@ -5,11 +5,14 @@ from .serializers import (
     UserSerializer,
 )
 from .models import Author, Post, Category
-from rest_framework import generics, permissions
-from rest_framework.response import Response
+from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from django.db.models import Q
 from rest_framework.views import APIView
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
+
+from .filters import PostsFilter
 
 
 class PostPagination(PageNumberPagination):
@@ -23,7 +26,17 @@ from rest_framework.exceptions import NotFound
 
 
 class PostList(generics.ListCreateAPIView):
+    queryset = Post.objects.all()
     serializer_class = PostSerializer
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.SearchFilter,
+        filters.OrderingFilter,
+    ]
+    filterset_class = PostsFilter
+    search_fields = ["title", "author__user__first_name"]
+    ordering_fields = ["id", "title", "created_at"]
+
     pagination_class = PostPagination
 
     def get_permissions(self):
