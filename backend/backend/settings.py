@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "rest_framework",
     "BLogApp",
+    "drf_spectacular",
 ]
 
 MIDDLEWARE = [
@@ -64,6 +65,7 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.TokenAuthentication",  # Add this line
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 ROOT_URLCONF = "backend.urls"
@@ -142,3 +144,11 @@ MEDIA_URL = "/media/"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Your Project API",
+    "DESCRIPTION": "Your project description",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    # OTHER SETTINGS
+}

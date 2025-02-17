@@ -1,0 +1,1043 @@
+openapi: 3.0.3
+info:
+  title: Your Project API
+  version: 1.0.0
+  description: Your project description
+paths:
+  /api/token/:
+    post:
+      operationId: api_token_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+  /api/token/refresh/:
+    post:
+      operationId: api_token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /author:
+    get:
+      operationId: author_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - author
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPostList'
+          description: ''
+    post:
+      operationId: author_create
+      tags:
+      - author
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Post'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Post'
+        required: true
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+          description: ''
+  /author/{id}:
+    get:
+      operationId: author_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - author
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+          description: ''
+    put:
+      operationId: author_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - author
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Author'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Author'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Author'
+        required: true
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+          description: ''
+    patch:
+      operationId: author_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - author
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAuthor'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedAuthor'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedAuthor'
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+          description: ''
+    delete:
+      operationId: author_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - author
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /author/posts/{author_id}:
+    get:
+      operationId: author_posts_list
+      parameters:
+      - in: path
+        name: author_id
+        schema:
+          type: integer
+        required: true
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - author
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPostList'
+          description: ''
+    post:
+      operationId: author_posts_create
+      parameters:
+      - in: path
+        name: author_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - author
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Post'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Post'
+        required: true
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+          description: ''
+  /category:
+    get:
+      operationId: category_list
+      tags:
+      - category
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+          description: ''
+    post:
+      operationId: category_create
+      tags:
+      - category
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Category'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Category'
+        required: true
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+          description: ''
+  /category/{id}:
+    get:
+      operationId: category_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - category
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+          description: ''
+    put:
+      operationId: category_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - category
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Category'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Category'
+        required: true
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+          description: ''
+    patch:
+      operationId: category_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - category
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCategory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCategory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCategory'
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+          description: ''
+    delete:
+      operationId: category_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - category
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /posts:
+    get:
+      operationId: posts_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - posts
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPostList'
+          description: ''
+    post:
+      operationId: posts_create
+      tags:
+      - posts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Post'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Post'
+        required: true
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+          description: ''
+  /posts/{slug}:
+    get:
+      operationId: posts_retrieve
+      parameters:
+      - in: path
+        name: slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - posts
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+          description: ''
+    put:
+      operationId: posts_update
+      parameters:
+      - in: path
+        name: slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - posts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Post'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Post'
+        required: true
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+          description: ''
+    patch:
+      operationId: posts_partial_update
+      parameters:
+      - in: path
+        name: slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - posts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedPost'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedPost'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedPost'
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+          description: ''
+    delete:
+      operationId: posts_destroy
+      parameters:
+      - in: path
+        name: slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - posts
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /posts/category/{category_id}:
+    get:
+      operationId: posts_category_list
+      parameters:
+      - in: path
+        name: category_id
+        schema:
+          type: integer
+        required: true
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - posts
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPostList'
+          description: ''
+    post:
+      operationId: posts_category_create
+      parameters:
+      - in: path
+        name: category_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - posts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Post'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Post'
+        required: true
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+          description: ''
+  /posts/category/first-post:
+    get:
+      operationId: posts_category_first_post_retrieve
+      tags:
+      - posts
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+          description: ''
+    put:
+      operationId: posts_category_first_post_update
+      tags:
+      - posts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Post'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Post'
+        required: true
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+          description: ''
+    patch:
+      operationId: posts_category_first_post_partial_update
+      tags:
+      - posts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedPost'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedPost'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedPost'
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+          description: ''
+    delete:
+      operationId: posts_category_first_post_destroy
+      tags:
+      - posts
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /posts/category/four-posts:
+    get:
+      operationId: posts_category_four_posts_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - posts
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPostList'
+          description: ''
+    post:
+      operationId: posts_category_four_posts_create
+      tags:
+      - posts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Post'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Post'
+        required: true
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+          description: ''
+  /posts/search/{query}:
+    get:
+      operationId: posts_search_retrieve
+      parameters:
+      - in: path
+        name: query
+        schema:
+          type: string
+        required: true
+      tags:
+      - posts
+      security:
+      - tokenAuth: []
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+components:
+  schemas:
+    Author:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user:
+          $ref: '#/components/schemas/User'
+        avatar:
+          type: string
+          format: uri
+          nullable: true
+        bio:
+          type: string
+          nullable: true
+        website_url:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 200
+        facebook_url:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 200
+      required:
+      - id
+      - user
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+      required:
+      - id
+      - name
+    PaginatedPostList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Post'
+    PatchedAuthor:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user:
+          $ref: '#/components/schemas/User'
+        avatar:
+          type: string
+          format: uri
+          nullable: true
+        bio:
+          type: string
+          nullable: true
+        website_url:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 200
+        facebook_url:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 200
+    PatchedCategory:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+    PatchedPost:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        category:
+          $ref: '#/components/schemas/Category'
+        author:
+          $ref: '#/components/schemas/Author'
+        title:
+          type: string
+          maxLength: 200
+        slug:
+          type: string
+          nullable: true
+          maxLength: 50
+          pattern: ^[-a-zA-Z0-9_]+$
+        content:
+          type: string
+        image:
+          type: string
+          format: uri
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    Post:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        category:
+          $ref: '#/components/schemas/Category'
+        author:
+          $ref: '#/components/schemas/Author'
+        title:
+          type: string
+          maxLength: 200
+        slug:
+          type: string
+          nullable: true
+          maxLength: 50
+          pattern: ^[-a-zA-Z0-9_]+$
+        content:
+          type: string
+        image:
+          type: string
+          format: uri
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - author
+      - category
+      - content
+      - created_at
+      - id
+      - title
+      - updated_at
+    TokenObtainPair:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+      required:
+      - access
+      - password
+      - refresh
+      - username
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          writeOnly: true
+      required:
+      - access
+      - refresh
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+      required:
+      - username
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"
