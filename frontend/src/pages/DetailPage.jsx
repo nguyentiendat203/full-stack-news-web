@@ -13,6 +13,7 @@ import { Pagination } from '../components/Pagination'
 const apiUrl = import.meta.env.VITE_API_URL
 
 export const DetailPage = () => {
+  const { slug } = useParams()
   const { setCateId, arrowLeft, setArrowLeft } = useContext(Context)
 
   const [listLatestPost, setListLatestPost] = useState([])
@@ -21,28 +22,25 @@ export const DetailPage = () => {
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(0)
 
-  const { slug } = useParams()
-
   const fetchDataBackend = async () => {
     try {
-      const resLatestPost = await fetchData('http://127.0.0.1:8080/post')
-      const resPosts = await fetchData(`http://127.0.0.1:8080/post/${slug}`)
+      const resLatestPost = await fetchData(`${apiUrl}/posts`)
+      const resPosts = await fetchData(`${apiUrl}/posts/${slug}`)
       setPosts(resPosts)
       setListLatestPost(resLatestPost.results)
     } catch (error) {
       console.log(error)
     }
   }
-
   useEffect(() => {
     fetchDataBackend()
   }, [slug])
 
   useEffect(() => {
-    if (posts?.category?.id) {
+    if (posts?.category) {
       const fetchPostsByCategory = async () => {
         try {
-          const resPostsbyCate = await fetchData(`http://127.0.0.1:8080/posts/category/${posts?.category?.id}?page=${page}`)
+          const resPostsbyCate = await fetchData(`${apiUrl}/posts/category/${posts?.category}?page=${page}`)
           setListPostsByCate(resPostsbyCate.results)
           setTotalPages(Math.ceil(resPostsbyCate.count / 6))
         } catch (error) {
@@ -58,17 +56,17 @@ export const DetailPage = () => {
     <div className='min-h-screen bg-gray-50 pb-32'>
       {/* Main Content */}
       <main className='container mx-auto px-4 py-5 max-w-4xl'>
-        <NavLink to={`/category/${posts?.category?.id}`} className='inline-block'>
+        <NavLink to={`/category/${posts?.category}`} className='inline-block'>
           <div className='flex gap-2 cursor-pointer hover:underline items-center'>
             {arrowLeft && <FaArrowLeftLong />}
             <span
               onClick={() => {
-                setCateId(posts?.category?.id)
+                setCateId(posts?.category)
                 setArrowLeft(true)
               }}
               className='text-sm font-semibold text-gray-800 uppercase '
             >
-              {posts?.category?.name}
+              {posts?.category_name}
             </span>
           </div>
         </NavLink>
@@ -79,9 +77,7 @@ export const DetailPage = () => {
           <div className='flex items-center gap-2'>
             <FaRegCircleUser size={20} />
             <NavLink to={`/author/${posts?.author?.id}`} onClick={() => setCateId(null)}>
-              <span className='cursor-pointer hover:underline uppercase'>
-                {posts?.author?.user.first_name}&nbsp;{posts?.author?.user.last_name}
-              </span>
+              <span className='cursor-pointer hover:underline uppercase'>{posts?.author?.full_name}</span>
             </NavLink>
           </div>
           <div className='flex items-center gap-2'>
@@ -92,7 +88,7 @@ export const DetailPage = () => {
 
         {/* Article Image */}
         <div className='my-8'>
-          <img src={`${apiUrl + posts?.image}`} alt={posts?.title} className='w-full h-[490px] object-cover rounded-md' />
+          <img src={posts?.image} alt={posts?.title} className='w-full h-[490px] object-cover rounded-md' />
         </div>
 
         <div className='grid grid-cols-3 gap-3'>
@@ -125,7 +121,7 @@ export const DetailPage = () => {
           <h2 className='text-2xl font-bold mb-3'>Các bài viết liên quan</h2>
           <hr />
           {listPostsByCate.map((post, index) => {
-            return <>{post.id !== posts.id && <HorizontalCardPost key={index} post={post} apiUrl={apiUrl} noCategory />}</>
+            return <>{post?.id !== posts?.id && <HorizontalCardPost key={index} post={post} apiUrl={apiUrl} noCategory />}</>
           })}
           <Pagination page={page} setPage={setPage} totalPages={totalPages} />
         </div>

@@ -17,7 +17,7 @@ export const PostsByAuthor = () => {
 
   const fetchDataBackend = async () => {
     try {
-      const resPosts = await fetchData(`${apiUrl}/author/posts/${id}?page=${page}`)
+      const resPosts = await fetchData(`${apiUrl}/posts/author/${id}?page=${page}`)
       setListPostsByAuthor(resPosts.results)
       settotalPosts(resPosts.count)
       setTotalPages(Math.ceil(resPosts.count / 6))
@@ -35,7 +35,7 @@ export const PostsByAuthor = () => {
       <div className='py-12 bg-gray-100 mb-10'>
         <p className='container mx-auto text-4xl font-bold flex items-center gap-2'>
           {listPostsByAuthor[0]?.author.avatar ? <img src={listPostsByAuthor[0]?.author.avatar} alt='' className='object-cover object-top rounded-full size-12' /> : <FaRegUser />}
-          {listPostsByAuthor[0]?.author.user.first_name} {listPostsByAuthor[0]?.author.user.last_name}
+          {listPostsByAuthor[0]?.author.full_name}
         </p>
       </div>
       <div className='container mx-auto'>

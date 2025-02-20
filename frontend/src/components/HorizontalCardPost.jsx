@@ -10,19 +10,19 @@ export const HorizontalCardPost = ({ post, apiUrl, noCategory }) => {
     <article className='flex gap-4 h-[150px]'>
       <div className='w-2/5'>
         <NavLink to={`/posts/${post?.slug}`}>
-          <img src={String(post?.image).includes('http') ? post?.image : apiUrl + post?.image} alt={post.title} className='w-full object-cover rounded-md h-full object-top' />
+          <img src={post?.image} alt={post.title} className='w-full object-cover rounded-md h-full object-top' />
         </NavLink>
       </div>
       <div className='flex-1 flex-grow'>
         {!noCategory && (
           <NavLink
-            to={`/category/${post?.category?.id}`}
+            to={`/category/${post?.category}`}
             onClick={() => {
-              setCateId(post?.category?.id)
+              setCateId(post?.category)
               setArrowLeft(true)
             }}
           >
-            <p className='text-sm text-gray-700 uppercase mb-2 font-semibold hover:underline cursor-pointer'>{post.category?.name}</p>
+            <p className='text-sm text-gray-700 uppercase mb-2 font-semibold hover:underline cursor-pointer'>{post?.category_name}</p>
           </NavLink>
         )}
         <NavLink to={`/posts/${post?.slug}`}>
@@ -38,9 +38,7 @@ export const HorizontalCardPost = ({ post, apiUrl, noCategory }) => {
                 setArrowLeft(false)
               }}
             >
-              <span className='uppercase hover:underline cursor-pointer'>
-                {post.author?.user.first_name}&nbsp;{post.author?.user.last_name}
-              </span>
+              <span className='uppercase hover:underline cursor-pointer'>{post?.author.full_name}</span>
             </NavLink>
           </div>
           <div className='flex items-center gap-1'>

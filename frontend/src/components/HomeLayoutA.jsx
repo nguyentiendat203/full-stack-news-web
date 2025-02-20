@@ -12,7 +12,7 @@ export const HomeLayoutA = ({ posts, apiUrl }) => {
 
   return (
     <div className='py-12'>
-      <h2 className='text-2xl font-bold mb-4'>{firstPost.category?.name}</h2>
+      <h2 className='text-2xl font-bold mb-4'>{firstPost?.category_name}</h2>
       <hr />
       <div className='mt-6 grid grid-cols-1 lg:grid-cols-2 gap-5'>
         <VerticalCardPost post={firstPost} size='large' noCategory apiUrl={apiUrl} />
@@ -29,9 +29,9 @@ export const HomeLayoutA = ({ posts, apiUrl }) => {
       </div>
       <div className='text-center mt-8'>
         <NavLink
-          to={`/category/${firstPost?.category?.id}`}
+          to={`/category/${firstPost?.category}`}
           onClick={() => {
-            setCateId(firstPost?.category?.id)
+            setCateId(firstPost?.category)
             setArrowLeft(true)
           }}
         >

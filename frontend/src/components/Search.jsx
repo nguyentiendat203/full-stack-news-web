@@ -32,7 +32,7 @@ export default function Search() {
   useEffect(() => {
     const fetchDataBE = async () => {
       try {
-        const res = await fetchData(`${apiUrl}/post/search/${valueSearch}?page=${page}`)
+        const res = await fetchData(`${apiUrl}/posts/search/${valueSearch}?page=${page}`)
         setListPosts((prevPosts) => (page === 1 ? res.results.posts : [...prevPosts, ...res.results.posts]))
         setListAuthors((prevAuthors) => (page === 1 ? res.results.authors : prevAuthors))
         setTotalPages(Math.ceil(res.count / 6))
@@ -58,7 +58,7 @@ export default function Search() {
       </div>
 
       {isOpen && (
-        <div className='fixed inset-0 bg-black bg-opacity-50 z-50 flex items-start justify-center'>
+        <div className='fixed backdrop-blur-sm inset-0 bg-black bg-opacity-50 z-50 flex items-start justify-center'>
           <div className='w-full max-w-xl bg-white mt-16 rounded-lg shadow-xl max-h-[80vh] overflow-y-auto'>
             <div className='p-4'>
               <div className='relative'>
@@ -121,7 +121,7 @@ export default function Search() {
                       {author.avatar ? <img src={apiUrl + author.avatar} className='w-10 h-10 rounded-full object-cover' /> : <FaRegUser />}
 
                       <span className='text-sm'>
-                        {author.user.first_name} {author.user.last_name}
+                        {author.full_name}
                       </span>
                     </NavLink>
                   ))}

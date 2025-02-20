@@ -4,12 +4,13 @@ import { Footer } from '../components/Footer'
 import { Navigation } from '../components/Navigation'
 import { useEffect, useState } from 'react'
 import { fetchData } from '../utils/fetchData'
+const apiUrl = import.meta.env.VITE_API_URL
 
 export const MainLayout = () => {
   const [listCate, setListCate] = useState([])
   const fetchCate = async () => {
     try {
-      const response = await fetchData('http://127.0.0.1:8080/category')
+      const response = await fetchData(`${apiUrl}/category`)
       setListCate(response)
     } catch (error) {
       console.log(error)

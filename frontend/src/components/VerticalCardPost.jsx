@@ -10,21 +10,21 @@ export const VerticalCardPost = ({ post, apiUrl, noCategory, size }) => {
     <article className='mb-8'>
       <NavLink to={`/posts/${post?.slug}`}>
         <img
-          src={apiUrl + post?.image}
+          src={post?.image}
           alt={post?.image?.url}
           className={`w-full imgHeight ${size === 'small' ? 'h-44' : '196'} object-cover object-top rounded-md cursor-pointer hover:underline`}
         />
       </NavLink>
       {!noCategory && (
         <NavLink
-          to={`/category/${post?.category?.id}`}
+          to={`/category/${post?.category}`}
           onClick={() => {
-            setCateId(post?.category?.id)
+            setCateId(post?.category)
             setArrowLeft(true)
           }}
         >
           <div className='mt-2'>
-            <span className='text-sm font-semibold text-gray-800 uppercase cursor-pointer hover:underline'>{post?.category?.name}</span>
+            <span className='text-sm font-semibold text-gray-800 uppercase cursor-pointer hover:underline'>{post?.category_name}</span>
           </div>
         </NavLink>
       )}
@@ -35,7 +35,7 @@ export const VerticalCardPost = ({ post, apiUrl, noCategory, size }) => {
         <div className={`flex items-center gap-1 ${size === 'small' && 'max-w-[50%]'}`}>
           <FaRegUser size={12} className='shrink-0' />
           <NavLink to={`/author/${post?.author.id}`} className='uppercase cursor-pointer hover:underline line-clamp-1'>
-            {post?.author?.user.first_name}&nbsp;{post?.author?.user.last_name}
+            {post?.author.full_name}
           </NavLink>
         </div>
         <span className='flex items-center gap-1'>

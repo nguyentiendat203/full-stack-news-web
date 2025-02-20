@@ -13,7 +13,7 @@ export const Posts = () => {
 
   const fetchDataBackend = async () => {
     try {
-      const resPosts = await fetchData(`${apiUrl}/post?page=${page}`)
+      const resPosts = await fetchData(`${apiUrl}/posts?page=${page}`)
       setListPosts(resPosts.results)
       setTotalPosts(resPosts.count)
       setTotalPages(Math.ceil(resPosts.count / 6))

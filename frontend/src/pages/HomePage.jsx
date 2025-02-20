@@ -19,8 +19,8 @@ export const HomePage = () => {
 
   const fetchDataBackend = async () => {
     try {
-      const response = await fetchData('http://127.0.0.1:8080/category')
-      const resLatestPost = await fetchData('http://127.0.0.1:8080/post')
+      const response = await fetchData(`${apiUrl}/category`)
+      const resLatestPost = await fetchData(`${apiUrl}/posts`)
       setListCate(response)
       setListLatestPost(resLatestPost.results)
 
@@ -57,8 +57,8 @@ export const HomePage = () => {
   const fetchPosts = async () => {
     const fetchedPosts = await Promise.all(
       listCate.map(async (item) => {
-        const posts = await fetchData(`${apiUrl}/four-post/category/${item.id}`)
-        return { categoryId: item.id, posts }
+        const posts = await fetchData(`${apiUrl}/posts/category/four-posts?category_id=${item.id}&limit=4`)
+        return { categoryId: item.id, posts: posts.results }
       })
     )
     setPostsByCategory(fetchedPosts)

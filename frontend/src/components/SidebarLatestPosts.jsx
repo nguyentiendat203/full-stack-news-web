@@ -10,12 +10,12 @@ export const SidebarLatestPosts = ({ listLatestPost, small }) => {
             return (
               <>
                 <article key={index} className={index === listLatestPost.length - 1 ? 'py-2' : 'border-b py-2'}>
-                  {!small && <span className='text-sm text-gray-700 uppercase font-semibold cursor-pointer hover:underline'>{post.category?.name}</span>}
+                  {!small && <span className='text-sm text-gray-700 uppercase font-semibold cursor-pointer hover:underline'>{post.category_name}</span>}
                   <h4 className='font-semibold my-1 line-clamp-2 cursor-pointer hover:underline'>{post.title}</h4>
                   <div className={`flex items-center ${!small ? 'justify-start' : 'justify-between'} gap-3 text-gray-600 text-sm`}>
                     <span className='flex items-center gap-1 uppercase cursor-pointer hover:underline '>
                       {!small && <FaRegUser size={14} />}
-                      {post.author?.user.first_name}&nbsp;{post.author?.user.last_name}
+                      {post.author.full_name}
                     </span>
 
                     <span className='flex items-center gap-1 whitespace-nowrap'>

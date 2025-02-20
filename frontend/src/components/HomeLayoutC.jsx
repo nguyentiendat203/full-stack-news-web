@@ -8,7 +8,7 @@ export const HomeLayoutC = ({ posts, apiUrl }) => {
 
   return (
     <div className='py-12'>
-      <h2 className='text-2xl font-bold mb-4'>{posts[0].category?.name}</h2>
+      <h2 className='text-2xl font-bold mb-4'>{posts[0]?.category_name}</h2>
       <hr />
       <div className='mt-6 grid grid-cols-1 md:grid-cols-2 gap-8'>
         {posts.length > 0 &&
@@ -22,9 +22,9 @@ export const HomeLayoutC = ({ posts, apiUrl }) => {
       </div>
       <div className='text-center mt-8'>
         <NavLink
-          to={`/category/${posts[0]?.category?.id}`}
+          to={`/category/${posts[0]?.category}`}
           onClick={() => {
-            setCateId(posts[0]?.category?.id)
+            setCateId(posts[0]?.category)
             setArrowLeft(true)
           }}
         >

@@ -36,7 +36,7 @@ export const PostsByCate = () => {
   return (
     <>
       <div className='py-12 bg-gray-100 mb-10'>
-        <p className='container mx-auto text-4xl font-bold'>{listPostsByCate[0]?.category.name}</p>
+        <p className='container mx-auto text-4xl font-bold'>{listPostsByCate[0]?.category_name}</p>
       </div>
       <div className='container mx-auto'>
         <h2 className='text-2xl mb-4 font-semibold'>{totalPosts} Bài viết</h2>

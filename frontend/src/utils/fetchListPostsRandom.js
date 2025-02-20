@@ -1,4 +1,5 @@
 import { fetchData } from './fetchData'
+const apiUrl = import.meta.env.VITE_API_URL
 
 export const fetchListPostsRandom = async (listCate) => {
   let randomCateIds = []
@@ -14,10 +15,9 @@ export const fetchListPostsRandom = async (listCate) => {
 
   try {
     const postPromises = randomCateIds.map((id) => {
-      return fetchData(`http://127.0.0.1:8080/one-post/category/${id}`)
+      return fetchData(`${apiUrl}/posts/category/first-post?category_id=${id}`)
     })
-    const posts = await Promise.all(postPromises)
-    return posts.flat()
+    return await Promise.all(postPromises)
   } catch (error) {
     console.log(error)
   }
