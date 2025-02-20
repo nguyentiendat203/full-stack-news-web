@@ -2,7 +2,7 @@ from .serializers import (
     AuthorSerializer,
     PostSerializer,
     CategorySerializer,
-    UserSerializer,
+    PostCreateUpdateSerializer,
 )
 from .models import Author, Post, Category
 from rest_framework import generics
@@ -45,6 +45,11 @@ class PostList(generics.ListCreateAPIView):
             self.permission_classes = [IsAdminUser]
         return super().get_permissions()
 
+    def get_serializer_class(self):
+        if self.request.method == "POST":
+            return PostCreateUpdateSerializer
+        return super().get_serializer_class()
+
     def get_queryset(self):
         #   ---------------Get params
         fk_category_id = self.kwargs.get("category_id")
@@ -71,6 +76,11 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
         if self.request.method in ["PUT", "PATCH", "DELETE"]:
             self.permission_classes = [IsAdminUser]
         return super().get_permissions()
+
+    def get_serializer_class(self):
+        if self.request.method in ["PUT", "PATCH"]:
+            return PostCreateUpdateSerializer
+        return super().get_serializer_class()
 
     def get_object(self):
         category_id = self.request.query_params.get("category_id")

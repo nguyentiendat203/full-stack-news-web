@@ -40,3 +40,29 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = "__all__"
+
+
+class PostCreateUpdateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Post
+        fields = "__all__"
+
+    def validate_author(self, value):
+        if not Author.objects.filter(id=value.id).exists():
+            raise serializers.ValidationError("The provided author does not exist.")
+        return value
+
+    def validate_category(self, value):
+        if not Category.objects.filter(id=value.id).exists():
+            raise serializers.ValidationError("The provided category does not exist.")
+        return value
+
+    def create(self, validated_data):
+        post = Post.objects.create(**validated_data)
+        return post
+
+    def update(self, instance, validated_data):
+        instance = super().update(instance, validated_data)
+
+        return instance
