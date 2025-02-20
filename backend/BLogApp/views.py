@@ -46,15 +46,19 @@ class PostList(generics.ListCreateAPIView):
         return super().get_permissions()
 
     def get_queryset(self):
-        # Lấy category_id từ URL
-        fk = self.kwargs.get("category_id")
+        #   ---------------Get params
+        fk_category_id = self.kwargs.get("category_id")
+        fk_author_id = self.kwargs.get("author_id")
+        #   ---------------Get query params
         category_id = self.request.query_params.get("category_id")
         limit = self.request.query_params.get("limit")
-        # Nếu category_id có giá trị, lọc các bài viết theo category_id
+
         if limit and category_id:
             return Post.objects.filter(category_id=category_id)[: int(limit)]
-        elif fk:
-            return Post.objects.filter(category_id=fk)
+        elif fk_category_id:
+            return Post.objects.filter(category_id=fk_category_id)
+        elif fk_author_id:
+            return Post.objects.filter(author_id=fk_author_id)
         return Post.objects.all()
 
 
@@ -100,7 +104,7 @@ class SearchAPIView(APIView, PostPagination):
 
 class AuthorList(generics.ListCreateAPIView):
     queryset = Author.objects.all()
-    serializer_class = PostSerializer
+    serializer_class = AuthorSerializer
     pagination_class = PostPagination
 
     def get_queryset(self):

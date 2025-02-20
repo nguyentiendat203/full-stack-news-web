@@ -48,14 +48,14 @@ urlpatterns = [
         name="list_post_by_cate",
     ),
     path(
+        "posts/author/<int:author_id>",
+        views.PostList.as_view(),
+        name="list_post_by_author",
+    ),
+    path(
         "posts/search/<str:query>", views.SearchAPIView.as_view(), name="search_results"
     ),
     path("author", views.AuthorList.as_view()),
-    path(
-        "author/posts/<int:author_id>",
-        views.AuthorList.as_view(),
-        name="post_belongs_author",
-    ),
     path("author/<int:pk>", views.AuthorDetail.as_view()),
     path("category", views.CategoryList.as_view()),
     path("category/<int:pk>", views.CategoryDetail.as_view()),

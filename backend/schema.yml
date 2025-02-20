@@ -11,7 +11,7 @@ paths:
         Takes a set of user credentials and returns an access and refresh JSON web
         token pair to prove the authentication of those credentials.
       tags:
-      - api
+        - api
       requestBody:
         content:
           application/json:
@@ -38,7 +38,7 @@ paths:
         Takes a refresh type JSON web token and returns an access type JSON web
         token if the refresh token is valid.
       tags:
-      - api
+        - api
       requestBody:
         content:
           application/json:
@@ -62,24 +62,24 @@ paths:
     get:
       operationId: author_list
       parameters:
-      - name: page
-        required: false
-        in: query
-        description: A page number within the paginated result set.
-        schema:
-          type: integer
-      - name: page_size
-        required: false
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
+        - name: page
+          required: false
+          in: query
+          description: A page number within the paginated result set.
+          schema:
+            type: integer
+        - name: page_size
+          required: false
+          in: query
+          description: Number of results to return per page.
+          schema:
+            type: integer
       tags:
-      - author
+        - author
       security:
-      - tokenAuth: []
-      - jwtAuth: []
-      - {}
+        - tokenAuth: []
+        - jwtAuth: []
+        - {}
       responses:
         '200':
           content:
@@ -90,7 +90,7 @@ paths:
     post:
       operationId: author_create
       tags:
-      - author
+        - author
       requestBody:
         content:
           application/json:
@@ -104,9 +104,9 @@ paths:
               $ref: '#/components/schemas/Post'
         required: true
       security:
-      - tokenAuth: []
-      - jwtAuth: []
-      - {}
+        - tokenAuth: []
+        - jwtAuth: []
+        - {}
       responses:
         '201':
           content:
@@ -118,17 +118,17 @@ paths:
     get:
       operationId: author_retrieve
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
       tags:
-      - author
+        - author
       security:
-      - tokenAuth: []
-      - jwtAuth: []
-      - {}
+        - tokenAuth: []
+        - jwtAuth: []
+        - {}
       responses:
         '200':
           content:
@@ -139,13 +139,13 @@ paths:
     put:
       operationId: author_update
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
       tags:
-      - author
+        - author
       requestBody:
         content:
           application/json:
@@ -159,9 +159,9 @@ paths:
               $ref: '#/components/schemas/Author'
         required: true
       security:
-      - tokenAuth: []
-      - jwtAuth: []
-      - {}
+        - tokenAuth: []
+        - jwtAuth: []
+        - {}
       responses:
         '200':
           content:
@@ -172,13 +172,13 @@ paths:
     patch:
       operationId: author_partial_update
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
       tags:
-      - author
+        - author
       requestBody:
         content:
           application/json:
@@ -191,9 +191,9 @@ paths:
             schema:
               $ref: '#/components/schemas/PatchedAuthor'
       security:
-      - tokenAuth: []
-      - jwtAuth: []
-      - {}
+        - tokenAuth: []
+        - jwtAuth: []
+        - {}
       responses:
         '200':
           content:
@@ -204,47 +204,47 @@ paths:
     delete:
       operationId: author_destroy
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
       tags:
-      - author
+        - author
       security:
-      - tokenAuth: []
-      - jwtAuth: []
-      - {}
+        - tokenAuth: []
+        - jwtAuth: []
+        - {}
       responses:
         '204':
           description: No response body
-  /author/posts/{author_id}:
+  /posts/author/{author_id}:
     get:
       operationId: author_posts_list
       parameters:
-      - in: path
-        name: author_id
-        schema:
-          type: integer
-        required: true
-      - name: page
-        required: false
-        in: query
-        description: A page number within the paginated result set.
-        schema:
-          type: integer
-      - name: page_size
-        required: false
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
+        - in: path
+          name: author_id
+          schema:
+            type: integer
+          required: true
+        - name: page
+          required: false
+          in: query
+          description: A page number within the paginated result set.
+          schema:
+            type: integer
+        - name: page_size
+          required: false
+          in: query
+          description: Number of results to return per page.
+          schema:
+            type: integer
       tags:
-      - author
+        - author
       security:
-      - tokenAuth: []
-      - jwtAuth: []
-      - {}
+        - tokenAuth: []
+        - jwtAuth: []
+        - {}
       responses:
         '200':
           content:
@@ -255,13 +255,13 @@ paths:
     post:
       operationId: author_posts_create
       parameters:
-      - in: path
-        name: author_id
-        schema:
-          type: integer
-        required: true
+        - in: path
+          name: author_id
+          schema:
+            type: integer
+          required: true
       tags:
-      - author
+        - author
       requestBody:
         content:
           application/json:
@@ -275,9 +275,9 @@ paths:
               $ref: '#/components/schemas/Post'
         required: true
       security:
-      - tokenAuth: []
-      - jwtAuth: []
-      - {}
+        - tokenAuth: []
+        - jwtAuth: []
+        - {}
       responses:
         '201':
           content:
@@ -289,11 +289,11 @@ paths:
     get:
       operationId: category_list
       tags:
-      - category
+        - category
       security:
-      - tokenAuth: []
-      - jwtAuth: []
-      - {}
+        - tokenAuth: []
+        - jwtAuth: []
+        - {}
       responses:
         '200':
           content:
@@ -306,7 +306,7 @@ paths:
     post:
       operationId: category_create
       tags:
-      - category
+        - category
       requestBody:
         content:
           application/json:
@@ -320,9 +320,9 @@ paths:
               $ref: '#/components/schemas/Category'
         required: true
       security:
-      - tokenAuth: []
-      - jwtAuth: []
-      - {}
+        - tokenAuth: []
+        - jwtAuth: []
+        - {}
       responses:
         '201':
           content:
@@ -334,17 +334,17 @@ paths:
     get:
       operationId: category_retrieve
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
       tags:
-      - category
+        - category
       security:
-      - tokenAuth: []
-      - jwtAuth: []
-      - {}
+        - tokenAuth: []
+        - jwtAuth: []
+        - {}
       responses:
         '200':
           content:
@@ -355,13 +355,13 @@ paths:
     put:
       operationId: category_update
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
       tags:
-      - category
+        - category
       requestBody:
         content:
           application/json:
@@ -375,9 +375,9 @@ paths:
               $ref: '#/components/schemas/Category'
         required: true
       security:
-      - tokenAuth: []
-      - jwtAuth: []
-      - {}
+        - tokenAuth: []
+        - jwtAuth: []
+        - {}
       responses:
         '200':
           content:
@@ -388,13 +388,13 @@ paths:
     patch:
       operationId: category_partial_update
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
       tags:
-      - category
+        - category
       requestBody:
         content:
           application/json:
@@ -407,9 +407,9 @@ paths:
             schema:
               $ref: '#/components/schemas/PatchedCategory'
       security:
-      - tokenAuth: []
-      - jwtAuth: []
-      - {}
+        - tokenAuth: []
+        - jwtAuth: []
+        - {}
       responses:
         '200':
           content:
@@ -420,17 +420,17 @@ paths:
     delete:
       operationId: category_destroy
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
       tags:
-      - category
+        - category
       security:
-      - tokenAuth: []
-      - jwtAuth: []
-      - {}
+        - tokenAuth: []
+        - jwtAuth: []
+        - {}
       responses:
         '204':
           description: No response body
@@ -438,24 +438,24 @@ paths:
     get:
       operationId: posts_list
       parameters:
-      - name: page
-        required: false
-        in: query
-        description: A page number within the paginated result set.
-        schema:
-          type: integer
-      - name: page_size
-        required: false
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
+        - name: page
+          required: false
+          in: query
+          description: A page number within the paginated result set.
+          schema:
+            type: integer
+        - name: page_size
+          required: false
+          in: query
+          description: Number of results to return per page.
+          schema:
+            type: integer
       tags:
-      - posts
+        - posts
       security:
-      - tokenAuth: []
-      - jwtAuth: []
-      - {}
+        - tokenAuth: []
+        - jwtAuth: []
+        - {}
       responses:
         '200':
           content:
@@ -466,7 +466,7 @@ paths:
     post:
       operationId: posts_create
       tags:
-      - posts
+        - posts
       requestBody:
         content:
           application/json:
@@ -480,8 +480,8 @@ paths:
               $ref: '#/components/schemas/Post'
         required: true
       security:
-      - tokenAuth: []
-      - jwtAuth: []
+        - tokenAuth: []
+        - jwtAuth: []
       responses:
         '201':
           content:
@@ -493,17 +493,17 @@ paths:
     get:
       operationId: posts_retrieve
       parameters:
-      - in: path
-        name: slug
-        schema:
-          type: string
-        required: true
+        - in: path
+          name: slug
+          schema:
+            type: string
+          required: true
       tags:
-      - posts
+        - posts
       security:
-      - tokenAuth: []
-      - jwtAuth: []
-      - {}
+        - tokenAuth: []
+        - jwtAuth: []
+        - {}
       responses:
         '200':
           content:
@@ -514,13 +514,13 @@ paths:
     put:
       operationId: posts_update
       parameters:
-      - in: path
-        name: slug
-        schema:
-          type: string
-        required: true
+        - in: path
+          name: slug
+          schema:
+            type: string
+          required: true
       tags:
-      - posts
+        - posts
       requestBody:
         content:
           application/json:
@@ -534,8 +534,8 @@ paths:
               $ref: '#/components/schemas/Post'
         required: true
       security:
-      - tokenAuth: []
-      - jwtAuth: []
+        - tokenAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -546,13 +546,13 @@ paths:
     patch:
       operationId: posts_partial_update
       parameters:
-      - in: path
-        name: slug
-        schema:
-          type: string
-        required: true
+        - in: path
+          name: slug
+          schema:
+            type: string
+          required: true
       tags:
-      - posts
+        - posts
       requestBody:
         content:
           application/json:
@@ -565,8 +565,8 @@ paths:
             schema:
               $ref: '#/components/schemas/PatchedPost'
       security:
-      - tokenAuth: []
-      - jwtAuth: []
+        - tokenAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -577,16 +577,16 @@ paths:
     delete:
       operationId: posts_destroy
       parameters:
-      - in: path
-        name: slug
-        schema:
-          type: string
-        required: true
+        - in: path
+          name: slug
+          schema:
+            type: string
+          required: true
       tags:
-      - posts
+        - posts
       security:
-      - tokenAuth: []
-      - jwtAuth: []
+        - tokenAuth: []
+        - jwtAuth: []
       responses:
         '204':
           description: No response body
@@ -594,29 +594,29 @@ paths:
     get:
       operationId: posts_category_list
       parameters:
-      - in: path
-        name: category_id
-        schema:
-          type: integer
-        required: true
-      - name: page
-        required: false
-        in: query
-        description: A page number within the paginated result set.
-        schema:
-          type: integer
-      - name: page_size
-        required: false
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
+        - in: path
+          name: category_id
+          schema:
+            type: integer
+          required: true
+        - name: page
+          required: false
+          in: query
+          description: A page number within the paginated result set.
+          schema:
+            type: integer
+        - name: page_size
+          required: false
+          in: query
+          description: Number of results to return per page.
+          schema:
+            type: integer
       tags:
-      - posts
+        - posts
       security:
-      - tokenAuth: []
-      - jwtAuth: []
-      - {}
+        - tokenAuth: []
+        - jwtAuth: []
+        - {}
       responses:
         '200':
           content:
@@ -627,13 +627,13 @@ paths:
     post:
       operationId: posts_category_create
       parameters:
-      - in: path
-        name: category_id
-        schema:
-          type: integer
-        required: true
+        - in: path
+          name: category_id
+          schema:
+            type: integer
+          required: true
       tags:
-      - posts
+        - posts
       requestBody:
         content:
           application/json:
@@ -647,8 +647,8 @@ paths:
               $ref: '#/components/schemas/Post'
         required: true
       security:
-      - tokenAuth: []
-      - jwtAuth: []
+        - tokenAuth: []
+        - jwtAuth: []
       responses:
         '201':
           content:
@@ -660,11 +660,11 @@ paths:
     get:
       operationId: posts_category_first_post_retrieve
       tags:
-      - posts
+        - posts
       security:
-      - tokenAuth: []
-      - jwtAuth: []
-      - {}
+        - tokenAuth: []
+        - jwtAuth: []
+        - {}
       responses:
         '200':
           content:
@@ -675,7 +675,7 @@ paths:
     put:
       operationId: posts_category_first_post_update
       tags:
-      - posts
+        - posts
       requestBody:
         content:
           application/json:
@@ -689,8 +689,8 @@ paths:
               $ref: '#/components/schemas/Post'
         required: true
       security:
-      - tokenAuth: []
-      - jwtAuth: []
+        - tokenAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -701,7 +701,7 @@ paths:
     patch:
       operationId: posts_category_first_post_partial_update
       tags:
-      - posts
+        - posts
       requestBody:
         content:
           application/json:
@@ -714,8 +714,8 @@ paths:
             schema:
               $ref: '#/components/schemas/PatchedPost'
       security:
-      - tokenAuth: []
-      - jwtAuth: []
+        - tokenAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -726,10 +726,10 @@ paths:
     delete:
       operationId: posts_category_first_post_destroy
       tags:
-      - posts
+        - posts
       security:
-      - tokenAuth: []
-      - jwtAuth: []
+        - tokenAuth: []
+        - jwtAuth: []
       responses:
         '204':
           description: No response body
@@ -737,24 +737,24 @@ paths:
     get:
       operationId: posts_category_four_posts_list
       parameters:
-      - name: page
-        required: false
-        in: query
-        description: A page number within the paginated result set.
-        schema:
-          type: integer
-      - name: page_size
-        required: false
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
+        - name: page
+          required: false
+          in: query
+          description: A page number within the paginated result set.
+          schema:
+            type: integer
+        - name: page_size
+          required: false
+          in: query
+          description: Number of results to return per page.
+          schema:
+            type: integer
       tags:
-      - posts
+        - posts
       security:
-      - tokenAuth: []
-      - jwtAuth: []
-      - {}
+        - tokenAuth: []
+        - jwtAuth: []
+        - {}
       responses:
         '200':
           content:
@@ -765,7 +765,7 @@ paths:
     post:
       operationId: posts_category_four_posts_create
       tags:
-      - posts
+        - posts
       requestBody:
         content:
           application/json:
@@ -779,8 +779,8 @@ paths:
               $ref: '#/components/schemas/Post'
         required: true
       security:
-      - tokenAuth: []
-      - jwtAuth: []
+        - tokenAuth: []
+        - jwtAuth: []
       responses:
         '201':
           content:
@@ -792,17 +792,17 @@ paths:
     get:
       operationId: posts_search_retrieve
       parameters:
-      - in: path
-        name: query
-        schema:
-          type: string
-        required: true
+        - in: path
+          name: query
+          schema:
+            type: string
+          required: true
       tags:
-      - posts
+        - posts
       security:
-      - tokenAuth: []
-      - jwtAuth: []
-      - {}
+        - tokenAuth: []
+        - jwtAuth: []
+        - {}
       responses:
         '200':
           description: No response body
@@ -834,8 +834,8 @@ components:
           nullable: true
           maxLength: 200
       required:
-      - id
-      - user
+        - id
+        - user
     Category:
       type: object
       properties:
@@ -846,13 +846,13 @@ components:
           type: string
           maxLength: 100
       required:
-      - id
-      - name
+        - id
+        - name
     PaginatedPostList:
       type: object
       required:
-      - count
-      - results
+        - count
+        - results
       properties:
         count:
           type: integer
@@ -970,13 +970,13 @@ components:
           format: date-time
           readOnly: true
       required:
-      - author
-      - category
-      - content
-      - created_at
-      - id
-      - title
-      - updated_at
+        - author
+        - category
+        - content
+        - created_at
+        - id
+        - title
+        - updated_at
     TokenObtainPair:
       type: object
       properties:
@@ -993,10 +993,10 @@ components:
           type: string
           readOnly: true
       required:
-      - access
-      - password
-      - refresh
-      - username
+        - access
+        - password
+        - refresh
+        - username
     TokenRefresh:
       type: object
       properties:
@@ -1007,8 +1007,8 @@ components:
           type: string
           writeOnly: true
       required:
-      - access
-      - refresh
+        - access
+        - refresh
     User:
       type: object
       properties:
@@ -1030,7 +1030,7 @@ components:
           title: Email address
           maxLength: 254
       required:
-      - username
+        - username
   securitySchemes:
     jwtAuth:
       type: http
