@@ -1,17 +1,20 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import Author, Post, Category
+from django.contrib.auth import password_validation
+
+from django.core.exceptions import ValidationError
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = [
+        fields = (
             "username",
             "first_name",
             "last_name",
             "email",
-        ]
+        )
 
 
 class AuthorSerializer(serializers.ModelSerializer):
@@ -66,3 +69,26 @@ class PostCreateUpdateSerializer(serializers.ModelSerializer):
         instance = super().update(instance, validated_data)
 
         return instance
+
+
+class RegisterUserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ("email", "username", "password")
+
+    def validate(self, data):
+        user = User(**data)
+        password = data.get("password")
+
+        errors = dict()
+        try:
+            # Validate the password using Django's built-in validators
+            password_validation.validate_password(password=password, user=user)
+        except ValidationError as e:
+            errors["password"] = list(e.messages)
+
+        if errors:
+            raise serializers.ValidationError(errors)
+
+        return super().validate(data)

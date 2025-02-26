@@ -59,9 +59,10 @@ urlpatterns = [
     path("author/<int:pk>", views.AuthorDetail.as_view()),
     path("category", views.CategoryList.as_view()),
     path("category/<int:pk>", views.CategoryDetail.as_view()),
+    path("users", views.UserList.as_view()),
+    # ---------------------------------------------------------------------------------------------------------------
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-    # ---------------------------------------------------------------------------------------------------------------
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     # Optional UI:
     path(

@@ -3,6 +3,8 @@ from .serializers import (
     PostSerializer,
     CategorySerializer,
     PostCreateUpdateSerializer,
+    UserSerializer,
+    RegisterUserSerializer,
 )
 from .models import Author, Post, Category
 from rest_framework import generics
@@ -11,7 +13,7 @@ from django.db.models import Q
 from rest_framework.views import APIView
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
-
+from django.contrib.auth.models import User
 from .filters import PostsFilter
 
 
@@ -140,3 +142,33 @@ class CategoryList(generics.ListCreateAPIView):
 class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+
+
+from rest_framework.response import Response
+from rest_framework import status
+
+
+class UserList(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def get_serializer_class(self):
+        if self.request.method == "POST":
+            return RegisterUserSerializer
+        return super().get_serializer_class()
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            password = serializer.validated_data.pop("password")
+
+            user = User(**serializer.validated_data)
+            user.set_password(password)  # Hash mật khẩu trước khi lưu
+            user.save()
+
+            return Response(
+                {"id": user.id, "message": "Đăng ký thành công"},
+                status=status.HTTP_201_CREATED,
+            )
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
