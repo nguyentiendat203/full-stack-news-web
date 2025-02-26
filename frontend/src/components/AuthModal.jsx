@@ -1,20 +1,24 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { IoMdClose } from 'react-icons/io'
+import AuthContext from '../context/AuthContext'
+import { fetchData } from '../utils/fetchData'
+import { toast } from 'react-toastify'
+const apiUrl = import.meta.env.VITE_API_URL
 
 export default function AuthModal({ isOpen, onClose, isSignIn, setIsSignIn }) {
+  const { loginUser } = useContext(AuthContext)
+
   const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [errors, setErrors] = useState({})
 
   const validateForm = () => {
     const newErrors = {}
-
-    // Email validation
-    if (!email) {
-      newErrors.email = 'Email is required'
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      newErrors.email = 'Please enter a valid email address'
+    // username validation
+    if (!username) {
+      newErrors.username = 'Username is required'
     }
 
     // Password validation
@@ -24,8 +28,14 @@ export default function AuthModal({ isOpen, onClose, isSignIn, setIsSignIn }) {
       newErrors.password = 'Password must be at least 6 characters'
     }
 
-    // Confirm password validation (only for sign up)
+    // Confirm password and Email validation (only for sign up)
     if (!isSignIn) {
+      if (!email) {
+        newErrors.email = 'Email is required'
+      } else if (!/\S+@\S+\.\S+/.test(email)) {
+        newErrors.email = 'Please enter a valid email address'
+      }
+
       if (!confirmPassword) {
         newErrors.confirmPassword = 'Please confirm your password'
       } else if (password !== confirmPassword) {
@@ -37,17 +47,34 @@ export default function AuthModal({ isOpen, onClose, isSignIn, setIsSignIn }) {
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
+  const registerUser = async (data) => {
+    try {
+      const response = await fetchData(`${apiUrl}/users`, 'POST', {}, data)
+      toast.success(response.message)
+      switchMode()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleSubmit = async () => {
     if (validateForm()) {
-      // Handle authentication here
-      console.log('Form submitted:', { email, password, confirmPassword })
+      isSignIn ? await loginUser({ username, password }) : await registerUser({ email, username, password })
+      setUsername('')
+      setPassword('')
+    }
+  }
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSubmit()
     }
   }
 
   const switchMode = () => {
     setIsSignIn(!isSignIn)
     setErrors({})
+    setUsername('')
     setPassword('')
     setConfirmPassword('')
   }
@@ -73,25 +100,46 @@ export default function AuthModal({ isOpen, onClose, isSignIn, setIsSignIn }) {
         <div className='p-8'>
           <h2 className='text-2xl font-semibold text-center mb-8'>{isSignIn ? 'Sign in' : 'Sign up'}</h2>
 
-          <form onSubmit={handleSubmit} className='space-y-4'>
+          <div className='space-y-4'>
+            {!isSignIn && (
+              <div>
+                <label htmlFor='email' className='block text-sm font-medium text-gray-700 mb-1'>
+                  Email
+                </label>
+                <input
+                  type='email'
+                  id='email'
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value)
+                    setErrors({ ...errors, email: undefined })
+                  }}
+                  className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-brown-500 transition-shadow ${
+                    errors.email ? 'border-red-500' : 'border-gray-300'
+                  }`}
+                  placeholder='name@example.com'
+                />
+                {errors.email && <p className='mt-1 text-sm text-red-500'>{errors.email}</p>}
+              </div>
+            )}
+
             <div>
               <label htmlFor='email' className='block text-sm font-medium text-gray-700 mb-1'>
-                Email
+                Username
               </label>
               <input
-                type='email'
-                id='email'
-                value={email}
+                type='text'
+                id='username'
+                value={username}
                 onChange={(e) => {
-                  setEmail(e.target.value)
-                  setErrors({ ...errors, email: undefined })
+                  setUsername(e.target.value)
+                  setErrors({ ...errors, username: undefined })
                 }}
-                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-brown-500 transition-shadow ${
-                  errors.email ? 'border-red-500' : 'border-gray-300'
-                }`}
-                placeholder='name@example.com'
+                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-brown-500 transition-shadow *:
+                  ${errors.username ? 'border-red-500' : 'border-gray-300'}
+                  `}
               />
-              {errors.email && <p className='mt-1 text-sm text-red-500'>{errors.email}</p>}
+              {errors.username && <p className='mt-1 text-sm text-red-500'>{errors.username}</p>}
             </div>
 
             <div>
@@ -106,6 +154,7 @@ export default function AuthModal({ isOpen, onClose, isSignIn, setIsSignIn }) {
                   setPassword(e.target.value)
                   setErrors({ ...errors, password: undefined })
                 }}
+                onKeyPress={handleKeyPress}
                 className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-brown-500 transition-shadow ${
                   errors.password ? 'border-red-500' : 'border-gray-300'
                 }`}
@@ -135,12 +184,12 @@ export default function AuthModal({ isOpen, onClose, isSignIn, setIsSignIn }) {
             )}
 
             <button
-              type='submit'
-              className='w-full bg-black text-white rounded-md py-2 mt-6 hover:bg-gray-800 transition-all duration-300 hover:shadow-lg transform hover:-translate-y-0.5'
+              onClick={handleSubmit}
+              className=' w-full bg-black text-white rounded-md py-2 mt-6 hover:bg-gray-800 transition-all duration-300 hover:shadow-lg transform hover:-translate-y-0.5'
             >
               {isSignIn ? 'Sign in' : 'Sign up'}
             </button>
-          </form>
+          </div>
 
           <p className='mt-4 text-center text-sm text-gray-600'>
             {isSignIn ? 'Dont have an account?' : 'Already have an account? '}

@@ -1,12 +1,22 @@
 import { CiMenuBurger } from 'react-icons/ci'
 import { FaBloggerB } from 'react-icons/fa'
 import Search from './Search'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import AuthModal from './AuthModal'
+import AuthContext from '../context/AuthContext'
+import { Context } from '../context/Context'
+import { toast } from 'react-toastify'
 
 export const Header = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const { user, logoutUser } = useContext(AuthContext)
+  const { isModalOpen, setIsModalOpen } = useContext(Context)
+
   const [isSignIn, setIsSignIn] = useState(true)
+
+  const handleLogout = () => {
+    logoutUser()
+    toast.success('Đăng xuất thành công')
+  }
 
   return (
     <header className='bg-gray-100 fixed top-0 right-0 left-0 z-40'>
@@ -26,26 +36,35 @@ export const Header = () => {
           </a>
         </div>
 
-        <div className='flex items-center space-x-4'>
-          <button
-            onClick={() => {
-              setIsModalOpen(true)
-              setIsSignIn(true)
-            }}
-            className='px-4 py-2 text-gray-700 hover:text-gray-900'
-          >
-            Đăng nhập
+        {!user ? (
+          <>
+            <div className='flex items-center space-x-4'>
+              <button
+                onClick={() => {
+                  setIsModalOpen(true)
+                  setIsSignIn(true)
+                }}
+                className='px-4 py-2 text-gray-700 hover:text-gray-900'
+              >
+                Đăng nhập
+              </button>
+              <button
+                onClick={() => {
+                  setIsModalOpen(true)
+                  setIsSignIn(false)
+                }}
+                className='px-4 py-2 bg-black text-white rounded hover:bg-gray-800'
+              >
+                Đăng ký
+              </button>
+            </div>
+          </>
+        ) : (
+          <button onClick={handleLogout} className='px-4 py-2 bg-black text-white rounded hover:bg-gray-800'>
+            Đăng xuất
           </button>
-          <button
-            onClick={() => {
-              setIsModalOpen(true)
-              setIsSignIn(false)
-            }}
-            className='px-4 py-2 bg-black text-white rounded hover:bg-gray-800'
-          >
-            Đăng ký
-          </button>
-        </div>
+        )}
+
         <AuthModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} isSignIn={isSignIn} setIsSignIn={setIsSignIn} />
       </div>
     </header>

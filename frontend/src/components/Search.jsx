@@ -32,7 +32,7 @@ export default function Search() {
   useEffect(() => {
     const fetchDataBE = async () => {
       try {
-        const res = await fetchData(`${apiUrl}/posts/search/${valueSearch}?page=${page}`)
+        const res = await fetchData(`${apiUrl}/posts/search/${valueSearch || null}?page=${page}`)
         setListPosts((prevPosts) => (page === 1 ? res.results.posts : [...prevPosts, ...res.results.posts]))
         setListAuthors((prevAuthors) => (page === 1 ? res.results.authors : prevAuthors))
         setTotalPages(Math.ceil(res.count / 6))
@@ -120,9 +120,7 @@ export default function Search() {
                     >
                       {author.avatar ? <img src={apiUrl + author.avatar} className='w-10 h-10 rounded-full object-cover' /> : <FaRegUser />}
 
-                      <span className='text-sm'>
-                        {author.full_name}
-                      </span>
+                      <span className='text-sm'>{author.full_name}</span>
                     </NavLink>
                   ))}
                 </div>
